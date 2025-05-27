@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "usuario": "Pepe",
+    "password": "VFXotbkIyf5Ajqp5uKkTCR406eA=",
+    "_userInfo": {
+      "rango": "user",
+      "creditos": 10
+    }
+  },
+  {
+    "id": 2,
+    "usuario": "Emilio",
+    "password": "x4bTIiFyWmoJCZHFnVAfKcOFfgI=",
+    "_userInfo": {
+      "rango": "user",
+      "creditos": 10
+    }
+  },
+  {
+    "id": 3,
+    "usuario": "Juan",
+    "password": "vtX9CTun1YFnhoiPQXMiyAeOvgE=",
+    "_userInfo": {
+      "rango": "user",
+      "creditos": 10
+    }
+  },
+  {
+    "id": 4,
+    "usuario": "Pedro",
+    "password": "vtX9CTun1YFnhoiPQXMiyAeOvgE=",
+    "_userInfo": {
+      "rango": "user",
+      "creditos": 10
+    }
+  }
+]
