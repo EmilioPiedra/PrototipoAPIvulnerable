@@ -8,7 +8,7 @@ app.use(
     origin: "http://localhost:3000", // o '*' para todos (solo en desarrollo)
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, // cámbialo a true si usas cookies
+    credentials: true, 
   })
 );
 

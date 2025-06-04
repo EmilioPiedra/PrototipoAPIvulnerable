@@ -68,3 +68,26 @@ export const changePassword = async ({ usuario, otp, nuevaPassword }) => {
   if (!res.ok) throw new Error("Error al cambiar contraseña");
   return await res.json(); // { mensaje: "...", valido: true (opcional) }
 };
+
+export const loadUsers = async () => {
+      try {
+        const response = await fetch("http://localhost:4000/api/users", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error("Error al obtener usuarios");
+        }
+
+        const data = await response.json();
+        setUsers(data);
+      } catch (err) {
+        setError("No autorizado o error al cargar usuarios");
+      } finally {
+        setLoading(false);
+      }
+    };
