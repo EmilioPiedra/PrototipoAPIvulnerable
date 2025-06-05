@@ -16,15 +16,15 @@ app.use(
 app.use(express.json());
 
 // Tus rutas
-const authRoutes = require("./routes/auth");
+const authRoutes = require("./routes/auth.routes");
 app.use("/api", authRoutes);
-const obtenerRoutes = require("./routes/CRUD_admin");
+const obtenerRoutes = require("./routes/admin.routes");
 app.use("/api", obtenerRoutes);
 const otpRoutes = require("./routes/otp.routes");
 app.use("/api", otpRoutes); // Accesibles en /api/request-otp y /api/verify-otp
 const changePasswordRoutes = require("./routes/otp.routes");
 app.use("/api", changePasswordRoutes); // Accesibles en /api/change-password
-const inventarioRoutes = require("./routes/CRUD_inventario");
+const inventarioRoutes = require("./routes/inventario.routes");
 app.use("/api", inventarioRoutes); // Accesibles en /api/inventario
 // Iniciar el servidor
 app.listen(4000, () => {
