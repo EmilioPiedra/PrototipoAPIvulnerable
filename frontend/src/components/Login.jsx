@@ -21,15 +21,24 @@ const Login = () => {
     try {
       const data = await loginAPI(usuario, password);
       login(data.token);
+      // Obtener el rango del usuario
+      const rango = data.user?._userInfo?.rango;
+      // Redirigir según el rango
+      if (rango === "admin") {
+      navigate("/admin-dashboard");
+      } else if (rango === "user") {
       navigate("/dashboard");
+      } 
     } catch (err) {
       setError("Usuario o contraseña incorrectos");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
+    <form className="login-form-container" onSubmit={handleSubmit}>
+      <h2>Iniciar Sesión</h2>
+      <p>Ingresa tus credenciales para acceder al sistema</p> 
+      <input  
         type="text"
         placeholder="Usuario"
         value={usuario}
@@ -48,18 +57,12 @@ const Login = () => {
       <a
         href="#"
         onClick={handleRecuperarContrasena}
-        style={{
-          marginTop: "10px",
-          display: "inline-block",
-          cursor: "pointer",
-          color: "blue",
-          textDecoration: "underline",
-        }}
+        className="login-form-link"
       >
         ¿Olvidaste tu contraseña??
       </a>
 
-      {error && <p>{error}</p>}
+      {error && <p className="login-form-error">{error}</p>}
     </form>
   );
 };

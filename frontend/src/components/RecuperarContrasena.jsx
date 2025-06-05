@@ -63,7 +63,6 @@ export default function RecuperarContrasena() {
             placeholder="Usuario"
             value={usuario}
             onChange={(e) => setUsuario(e.target.value)}
-            style={{ width: "100%", marginBottom: 8 }}
           />
           <button onClick={manejarSolicitudOtp} disabled={!usuario}>
             Solicitar OTP
@@ -78,7 +77,6 @@ export default function RecuperarContrasena() {
             placeholder="OTP recibido"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
-            style={{ width: "100%", marginBottom: 8 }}
           />
           <button onClick={manejarValidarOtp} disabled={!otp}>
             Validar OTP
@@ -96,7 +94,7 @@ export default function RecuperarContrasena() {
             placeholder="Nueva contraseña"
             value={nuevaPassword}
             onChange={(e) => setNuevaPassword(e.target.value)}
-            style={{ width: "100%", marginBottom: 8 }}
+            style={{ marginRight: 10 }}
           />
           <button onClick={manejarCambiarPassword} disabled={!nuevaPassword}>
             Cambiar contraseña

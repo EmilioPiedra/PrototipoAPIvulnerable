@@ -18,12 +18,14 @@ app.use(express.json());
 // Tus rutas
 const authRoutes = require("./routes/auth");
 app.use("/api", authRoutes);
-const obtenerRoutes = require("./routes/get");
+const obtenerRoutes = require("./routes/CRUD_admin");
 app.use("/api", obtenerRoutes);
 const otpRoutes = require("./routes/otp.routes");
 app.use("/api", otpRoutes); // Accesibles en /api/request-otp y /api/verify-otp
 const changePasswordRoutes = require("./routes/otp.routes");
 app.use("/api", changePasswordRoutes); // Accesibles en /api/change-password
+const inventarioRoutes = require("./routes/CRUD_inventario");
+app.use("/api", inventarioRoutes); // Accesibles en /api/inventario
 // Iniciar el servidor
 app.listen(4000, () => {
   console.log("Servidor corriendo en http://localhost:4000");

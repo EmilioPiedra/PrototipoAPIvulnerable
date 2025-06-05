@@ -18,27 +18,6 @@ export const fetchProtectedData = async (token) => {
   return await res.json();
 };
 
-export const getUserById = async (id, token) => {
-  const res = await fetch(`${API_URL}/api/user/${id}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!res.ok) throw new Error("No autorizado o usuario no encontrado");
-  return await res.json();
-};
-
-export const updateUser = async (id, userData, token) => {
-  const res = await fetch(`${API_URL}/api/user/${id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(userData),
-  });
-  if (!res.ok) throw new Error("No autorizado o usuario no encontrado");
-  return await res.json();
-}
-
 export const requestOtp = async (usuario) => {
   const res = await fetch(`${API_URL}/api/request-otp`, {
     method: "POST",
@@ -69,25 +48,37 @@ export const changePassword = async ({ usuario, otp, nuevaPassword }) => {
   return await res.json(); // { mensaje: "...", valido: true (opcional) }
 };
 
-export const loadUsers = async () => {
-      try {
-        const response = await fetch("http://localhost:4000/api/users", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
+export const getUsers = async (token) => {
+  const res = await fetch(`${API_URL}/api/users`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error("No autorizado o usuario no encontrado");
+  return await res.json();
+};
 
-        if (!response.ok) {
-          throw new Error("Error al obtener usuarios");
-        }
+export const updateUser = async (usuario, newData, token) => {
+  const res = await fetch(`${API_URL}/api/actualizar/${usuario}`, {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${token}`},
+    body: JSON.stringify(newData),
+  });
+  if (!res.ok) throw new Error("Error al actualizar usuario");
+  return await res.json();
+};
 
-        const data = await response.json();
-        setUsers(data);
-      } catch (err) {
-        setError("No autorizado o error al cargar usuarios");
-      } finally {
-        setLoading(false);
-      }
-    };
+export const deleteUser = async (usuario, token) => {
+  const res = await fetch(`${API_URL}/api/eliminar/${usuario}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error("Error al eliminar usuario");
+  return await res.json();
+}
+
+export const getInventario = async (token) => {
+  const res = await fetch(`${API_URL}/api/inventario`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error("No autorizado o inventario no encontrado");
+  return await res.json();
+};

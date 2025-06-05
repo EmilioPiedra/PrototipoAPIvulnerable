@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import Dashboard from "./components/Dashboard";
 import RecuperarContrasena from "./components/RecuperarContrasena";
 import PrivateRoute from "./components/PrivateRoute";
+import AdminDashboard from "./components/AdminDashboard";
 import "./App.css";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           />
           <Route element={<PrivateRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
           </Route>
           <Route path="*" element={<Login />} />
         </Routes>

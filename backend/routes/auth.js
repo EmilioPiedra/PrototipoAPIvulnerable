@@ -44,7 +44,7 @@ router.post('/login', (req, res) => {
   },
   secret: 'mi_llave_secreta'
   }).get();
-    return res.json({ token });
+    return res.json({ token, user: { usuario: user.usuario, _userInfo: {rango: user._userInfo.rango} } });
   });
 
 router.get('/protected', (req, res) => {
