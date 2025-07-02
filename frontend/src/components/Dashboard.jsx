@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { fetchProtectedData, getInventario } from "../services/api";
+import Facturar from "./Facturar"; // ajusta la ruta según tu estructura
 
 
 const Dashboard = () => {
@@ -93,6 +94,8 @@ const Dashboard = () => {
             </table>
           </div>
         );
+      case "facturar":
+        return <Facturar />; // Componente de facturación
       default:
         return null;
     }
@@ -109,6 +112,7 @@ const Dashboard = () => {
           <li onClick={() => setSelectedPanel("inicio")}>Inicio</li>
           <li onClick={() => setSelectedPanel("notificar")}>Notificar daño</li>
           <li onClick={() => setSelectedPanel("inventario")}>Inventario</li>
+          <li onClick={() => setSelectedPanel("facturar")}>Facturar</li>
           <li onClick={logout}>Cerrar sesión</li>
         </ul>
       </aside>
