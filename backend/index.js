@@ -26,6 +26,8 @@ const changePasswordRoutes = require("./routes/otp.routes");
 app.use("/api", changePasswordRoutes); // Accesibles en /api/change-password
 const inventarioRoutes = require("./routes/inventario.routes");
 app.use("/api", inventarioRoutes); // Accesibles en /api/inventario
+app.use("/api", require("./routes/soap.routes"));
+
 // Iniciar el servidor
 app.listen(4000, () => {
   console.log("Servidor corriendo en http://localhost:4000");
