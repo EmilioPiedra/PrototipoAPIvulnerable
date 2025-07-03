@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
-
+require("dotenv").config(); // Cargar variables de entorno desde .env
 // CORS: permitir solo al frontend en localhost:3001
 app.use(
   cors({
@@ -27,6 +27,11 @@ app.use("/api", changePasswordRoutes); // Accesibles en /api/change-password
 const inventarioRoutes = require("./routes/inventario.routes");
 app.use("/api", inventarioRoutes); // Accesibles en /api/inventario
 app.use("/api", require("./routes/soap.routes"));
+
+// Conectar a la base de datos
+const connectDB = require("./config/db");
+connectDB();
+
 
 // Iniciar el servidor
 app.listen(4000, () => {

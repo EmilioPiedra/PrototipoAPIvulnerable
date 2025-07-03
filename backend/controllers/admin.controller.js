@@ -1,98 +1,69 @@
-const express = require('express');
-const fs = require('fs');
-const JWT = require('../jwt/jwt');
+const JWT = require("../jwt/jwt");
+const User = require("../models/User"); // modelo de MongoDB
 
-// Obtener todos los usuarios
-const getUsers = (req, res) => {
-  const authHeader = req.headers['authorization'];
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'No autorizado, falta token' });
-  }
-
-  const token = authHeader.split(' ')[1];
+// ✅ Obtener todos los usuarios
+const getUsers = async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
   const jwt = new JWT();
-  const decoded = jwt.decode({ token, secret: 'mi_llave_secreta' });
+  const decoded = jwt.decode({ token, secret: process.env.JWT_SECRET || "mi_llave_secreta" });
 
-  if (!decoded) {
-    return res.status(401).json({ error: 'Token inválido o expirado' });
-  }
+  if (!decoded) return res.status(401).json({ error: "Token inválido o expirado" });
 
   try {
-    const users = JSON.parse(fs.readFileSync('./data/users.json'));
+    const users = await User.find();
     return res.json(users);
   } catch (err) {
-    return res.status(500).json({ error: 'Error leyendo usuarios' });
+    return res.status(500).json({ error: "Error leyendo usuarios", details: err.message });
   }
 };
 
-// Actualizar usuario completo (por ID o username)
-const actualizarUser =  (req, res) => {
-  const authHeader = req.headers['authorization'];
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'No autorizado, falta token' });
-  }
-
-  const token = authHeader.split(' ')[1];
+// ✅ Actualizar usuario por `usuario`
+const actualizarUser = async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
   const jwt = new JWT();
-  const decoded = jwt.decode({ token, secret: 'mi_llave_secreta' });
+  const decoded = jwt.decode({ token, secret: process.env.JWT_SECRET || "mi_llave_secreta" });
 
-  if (!decoded) {
-    return res.status(401).json({ error: 'Token inválido o expirado' });
-  }
+  if (!decoded) return res.status(401).json({ error: "Token inválido o expirado" });
 
   const { usuario } = req.params;
   const newData = req.body;
 
   try {
-    const users = JSON.parse(fs.readFileSync('./data/users.json'));
-    const index = users.findIndex(u => u.usuario === usuario);
+    const user = await User.findOneAndUpdate(
+      { usuario },
+      { $set: newData },
+      { new: true }
+    );
 
-    if (index === -1) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
-    }
+    if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
 
-    // Actualiza los campos permitidos
-    users[index] = { ...users[index], ...newData };
-
-    fs.writeFileSync('./data/users.json', JSON.stringify(users, null, 2));
-    return res.json({ message: 'Usuario actualizado', user: users[index] });
+    return res.json({ message: "Usuario actualizado", user });
   } catch (err) {
-    return res.status(500).json({ error: 'Error actualizando usuario' });
+    return res.status(500).json({ error: "Error actualizando usuario", details: err.message });
   }
 };
 
-// Eliminar usuario por nombre de usuario
-const eliminarUser = (req, res) => {
-  const authHeader = req.headers['authorization'];
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ error: 'No autorizado, falta token' });
-  }
-
-  const token = authHeader.split(' ')[1];
+// ✅ Eliminar usuario por `usuario`
+const eliminarUser = async (req, res) => {
+  const token = req.headers["authorization"]?.split(" ")[1];
   const jwt = new JWT();
-  const decoded = jwt.decode({ token, secret: 'mi_llave_secreta' });
+  const decoded = jwt.decode({ token, secret: process.env.JWT_SECRET || "mi_llave_secreta" });
 
-  if (!decoded) {
-    return res.status(401).json({ error: 'Token inválido o expirado' });
-  }
+  if (!decoded) return res.status(401).json({ error: "Token inválido o expirado" });
 
   const { usuario } = req.params;
 
   try {
-    let users = JSON.parse(fs.readFileSync('./data/users.json'));
-    const initialLength = users.length;
-    users = users.filter(u => u.usuario !== usuario);
+    const result = await User.deleteOne({ usuario });
 
-    if (users.length === initialLength) {
-      return res.status(404).json({ error: 'Usuario no encontrado' });
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
-    fs.writeFileSync('./data/users.json', JSON.stringify(users, null, 2));
-    return res.json({ message: 'Usuario eliminado correctamente' });
+    return res.json({ message: "Usuario eliminado correctamente" });
   } catch (err) {
-    return res.status(500).json({ error: 'Error eliminando usuario' });
+    return res.status(500).json({ error: "Error eliminando usuario", details: err.message });
   }
 };
 
-
-module.exports = {getUsers, actualizarUser, eliminarUser};  
+module.exports = { getUsers, actualizarUser, eliminarUser };

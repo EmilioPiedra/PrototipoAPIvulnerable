@@ -59,10 +59,15 @@ export const getUsers = async (token) => {
 export const updateUser = async (usuario, newData, token) => {
   const res = await fetch(`${API_URL}/api/actualizar/${usuario}`, {
     method: "PUT",
-    headers: { Authorization: `Bearer ${token}`},
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
     body: JSON.stringify(newData),
   });
+
   if (!res.ok) throw new Error("Error al actualizar usuario");
+
   return await res.json();
 };
 
