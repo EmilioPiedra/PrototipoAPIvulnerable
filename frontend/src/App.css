@@ -13,56 +13,100 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 375px;
+  width: 360px;
   margin: 100px auto;
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(180deg, #ffffff 0%, #f9f9f9 100%);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-.login-form-container input {
-  width: 200px;
-  padding: 0.75rem;
+.login-form-container h2 {
+  margin-bottom: 0.25rem;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.login-form-container p {
+  margin-bottom: 1.5rem;
+  color: #777;
+  font-size: 0.95rem;
+}
+
+/* Iconos dentro de inputs */
+.login-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.login-input-wrapper input {
+  width: 100%;
+  padding: 0.75rem 2.5rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
+  background-color: #f9f9f9;
   margin-bottom: 1rem;
+  transition: border-color 0.3s;
 }
 
+.login-input-wrapper input:focus {
+  border-color: #ff4b5c;
+  outline: none;
+}
+
+.login-input-wrapper .login-icon {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  transform: translateY(-50%);
+  color: #aaa;
+  font-size: 1.2rem;
+}
+
+/* Botón */
 .login-form-container button {
   width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
+  padding: 0.9rem;
+  background-color: #ff4b5c;
   border: none;
-  border-radius: 8px;
-  color: white;
+  border-radius: 25px;
+  color: #fff;
   font-weight: bold;
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, transform 0.1s;
 }
 
 .login-form-container button:hover {
-  background-color: #0056b3;
+  background-color: #e83e50;
+  transform: scale(1.02);
 }
 
+/* Link y error */
 .login-form-link {
-  margin-top: 10px;
-  color: blue;
+  margin-top: 12px;
+  color: #007bff;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.login-form-link:hover {
   text-decoration: underline;
-  cursor: pointer;
 }
 
 .login-form-error {
   margin-top: 1rem;
-  color: red;
-  font-weight: bold;
+  color: #ff4b5c;
+  font-weight: 600;
   text-align: center;
 }
 
-/* Employee Dashboard */
+/* Login form */
 
+/*  Dashboard */
+/* === Estilos base === */
 * {
   margin: 0;
   padding: 0;
@@ -71,52 +115,138 @@ body {
 
 html, body, #root {
   height: 100%;
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f6f8;
 }
 
+/* === Layout general === */
 .employee-dashboard {
   display: flex;
   height: 100vh;
   width: 100vw;
-  font-family: Arial, sans-serif;
+  overflow: hidden;
 }
 
+/* === Sidebar === */
 .sidebar {
-  width: 220px;
-  background-color: #004085;
-  color: white;
-  padding: 1rem;
+  width: 250px;
+  background: linear-gradient(180deg, #004085 0%, #0056b3 100%);
+  color: #fff;
+  padding: 2rem 1rem;
   display: flex;
   flex-direction: column;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  box-shadow: 4px 0 12px rgba(0, 0, 0, 0.1);
 }
 
 .sidebar h3 {
-  margin-bottom: 1rem;
   text-align: center;
+  font-size: 1.4rem;
+  margin-bottom: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .sidebar ul {
   list-style: none;
-  padding: 0;
   flex-grow: 1;
 }
 
 .sidebar li {
-  padding: 0.75rem;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.5rem;
   cursor: pointer;
-  border-radius: 5px;
-  transition: background 0.3s;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
 }
 
 .sidebar li:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(4px);
+}
+
+/* Íconos */
+.sidebar li i {
+  font-size: 1.1rem;
+}
+
+/* === Main content === */
+.main-panel {
+  flex: 1;
+  padding: 2rem 3rem;
+  background-color: #f9fafc;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header del panel */
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.main-header h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.main-header button {
+  background-color: #004085;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.main-header button:hover {
   background-color: #0056b3;
 }
 
-.main-panel {
-  flex: 1;
-  padding: 2rem;
-  background-color: #f5f8fa;
-  overflow-y: auto;
+/* Tarjetas de contenido */
+.dashboard-card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s;
 }
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Títulos */
+.dashboard-card h3 {
+  color: #004085;
+  margin-bottom: 0.75rem;
+}
+
+.dashboard-card p {
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Scrollbar personalizado */
+.main-panel::-webkit-scrollbar {
+  width: 8px;
+}
+.main-panel::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
 
 /* Formulario de imagen */
 .image-form {
@@ -163,88 +293,371 @@ html, body, #root {
 }
 
 /* src/components/RecuperarContrasena.module.css */
+/* Contenedor principal de la vista de recuperar contraseña */
+.recuperar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 380px;
+  margin: 100px auto;
+  background: linear-gradient(180deg, #ffffff 0%, #f9f9f9 100%);
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
 
-
-
-h2 {
-  text-align: center;
+.recuperar-container h2 {
   color: #333;
-  margin-bottom: 20px;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
 }
 
-input[type="text"],
-input[type="password"] {
+.recuperar-container p {
+  color: #555;
+  font-size: 0.95rem;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Inputs */
+.recuperar-container input {
   width: 100%;
-  padding: 10px 12px;
-  margin-bottom: 15px;
-  border: 1.8px solid #ccc;
-  border-radius: 5px;
-  font-size: 15px;
+  padding: 0.8rem 1rem;
+  margin-bottom: 1rem;
+  border: 1.5px solid #ccc;
+  border-radius: 10px;
+  font-size: 1rem;
   transition: border-color 0.3s;
+  background-color: #f9f9f9;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
+.recuperar-container input:focus {
   border-color: #4a90e2;
   outline: none;
 }
 
-button {
+/* Botones */
+.recuperar-container button {
   width: 100%;
+  padding: 0.9rem;
   background-color: #4a90e2;
-  color: white;
-  padding: 12px 0;
   border: none;
-  border-radius: 6px;
-  font-weight: 600;
+  border-radius: 25px;
+  color: #fff;
+  font-weight: bold;
+  font-size: 1rem;
   cursor: pointer;
-  font-size: 16px;
-  transition: background-color 0.3s;
-  margin-top: 10px;
+  transition: background-color 0.3s, transform 0.1s;
+  margin-top: 8px;
 }
 
-button:disabled {
+.recuperar-container button:hover:not(:disabled) {
+  background-color: #357abd;
+  transform: scale(1.02);
+}
+
+.recuperar-container button:disabled {
   background-color: #a1c1f0;
   cursor: not-allowed;
 }
 
-button:hover:not(:disabled) {
-  background-color: #357abd;
-}
-
-p {
+/* Mensajes */
+.recuperar-mensaje {
+  color: #444;
+  font-size: 0.9rem;
   margin-top: 15px;
-  color: #555;
   text-align: center;
-  font-size: 14px;
+  font-weight: 500;
 }
 
-.admin-dashboard {
-  padding: 1rem;
+.recuperar-mensaje.error {
+  color: #e83e50;
 }
 
-.admin-dashboard-title {
+.recuperar-mensaje.success {
+  color: #28a745;
+}
+
+
+/* SubirInventario.css */
+
+.form-inventario {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-titulo {
+  text-align: center;
+  margin-bottom: 1rem;
   color: #333;
 }
 
-.admin-dashboard-subtitle {
-  color: #555;
-}
-
-.admin-dashboard-item {
-  background-color: #f9f9f9;
-  border-left: 5px solid #007bff;
-}
-
-.admin-dashboard-btn-edit,
-.admin-dashboard-btn-delete {
-  min-width: 80px;
-}
-
-.admin-dashboard-btn-logout {
-  font-weight: bold;
-}
-
-.admin-dashboard-modal .modal-content {
+.form-input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
   border-radius: 8px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.form-boton {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s;
+}
+
+.form-boton:hover {
+  background-color: #0056b3;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .form-inventario {
+    padding: 1rem;
+  }
+
+  .form-titulo {
+    font-size: 1.2rem;
+  }
+
+  .form-input,
+  .form-boton {
+    font-size: 0.95rem;
+    padding: 0.65rem;
+  }
+}
+
+
+.factura-container {
+  max-width: 900px;
+  margin: auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  border-radius: 12px;
+  font-family: Arial, sans-serif;
+}
+
+.factura-titulo {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
+}
+
+.factura-seccion {
+  margin-bottom: 1.5rem;
+}
+
+.factura-subtitulo {
+  font-size: 1.2rem;
+  margin-bottom: 0.75rem;
+}
+
+.factura-fechas,
+.factura-cliente,
+.factura-botones-producto,
+.factura-descuento {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.factura-campo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.factura-input-cliente {
+  flex: 1;
+  padding: 0.5rem;
+}
+
+.factura-btn {
+  padding: 0.5rem 1rem;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.factura-btn:hover {
+  background-color: #0056b3;
+}
+
+.factura-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.factura-tabla th,
+.factura-tabla td {
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.factura-seccion-totales {
+  text-align: right;
+  padding-right: 1rem;
+}
+
+.factura-select-moneda {
+  padding: 0.5rem;
+}
+
+.factura-acciones {
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.factura-btn-generar {
+  background-color: green;
+  color: white;
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.factura-btn-generar:hover {
+  background-color: darkgreen;
+}
+
+.factura-productos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.factura-producto-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.factura-producto-card:hover {
+  transform: scale(1.02);
+}
+
+.factura-producto-card h4 {
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+}
+
+.factura-producto-card p {
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
+.factura-btn {
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.factura-btn:hover {
+  background-color: #0056b3;
+}
+
+
+/* src/components/Inventario.css */
+.inventario-wrapper {
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  font-family: sans-serif;
+}
+
+.inventario-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.inventario-search {
+  padding: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.inventario-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.inventario-table th,
+.inventario-table td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.inventario-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.inventario-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.inventario-pagination button {
+  padding: 0.4rem 0.8rem;
+  margin: 0 0.2rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.inventario-pagination button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.page-info {
+  margin: 0 1rem;
 }

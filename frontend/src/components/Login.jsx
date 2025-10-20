@@ -21,6 +21,8 @@ const Login = () => {
     try {
       const data = await loginAPI(usuario, password);
       login(data.token);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
       // Obtener el rango del usuario
       const rango = data.user?._userInfo?.rango;
       // Redirigir según el rango
@@ -28,7 +30,7 @@ const Login = () => {
       navigate("/admin-dashboard");
       } else if (rango === "user") {
       navigate("/dashboard");
-      } 
+      }else{navigate("/");} 
     } catch (err) {
       setError("Usuario o contraseña incorrectos");
     }
@@ -37,29 +39,34 @@ const Login = () => {
   return (
     <form className="login-form-container" onSubmit={handleSubmit}>
       <h2>Iniciar Sesión</h2>
-      <p>Ingresa tus credenciales para acceder al sistema</p> 
-      <input  
-        type="text"
-        placeholder="Usuario"
-        value={usuario}
-        onChange={(e) => setUsuario(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Contraseña"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
+      <p>Ingresa tus credenciales para acceder al sistema</p>
+
+      <div className="login-input-wrapper">
+        <i className="login-icon fas fa-user"></i>
+        <input
+          type="text"
+          placeholder="Usuario"
+          value={usuario}
+          onChange={(e) => setUsuario(e.target.value)}
+          required
+        />
+      </div>
+
+      <div className="login-input-wrapper">
+        <i className="login-icon fas fa-lock"></i>
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
+
       <button type="submit">Ingresar</button>
 
-      <a
-        href="#"
-        onClick={handleRecuperarContrasena}
-        className="login-form-link"
-      >
-        ¿Olvidaste tu contraseña??
+      <a href="#" onClick={handleRecuperarContrasena} className="login-form-link">
+        ¿Olvidaste tu contraseña?
       </a>
 
       {error && <p className="login-form-error">{error}</p>}

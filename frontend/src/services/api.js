@@ -87,3 +87,63 @@ export const getInventario = async (token) => {
   if (!res.ok) throw new Error("No autorizado o inventario no encontrado");
   return await res.json();
 };
+
+export const addInventario = async (token, nuevoItem) => {
+  const res = await fetch(`${API_URL}/api/addInventario`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(nuevoItem),
+  });
+
+  if (!res.ok) throw new Error("Error al agregar producto al inventario");
+  return await res.json();
+};
+
+
+export const verificarAntecedentes = async (cedula, token) => {
+  const res = await fetch(`${API_URL}/api/verificar-antecedentes`, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ cedula }),
+  });
+
+  const data = await res.json();
+  return data;
+};
+
+
+export const facturarCliente = async (factura, token) => {
+  const res = await fetch(`${API_URL}/api/factura`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(factura)
+  });
+
+  if (!res.ok) throw new Error("Error al generar la factura");
+  return await res.json();
+};
+
+
+export const getUserById = async (id, token) => {
+  const res = await fetch(`${API_URL}/api/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Error al obtener usuario: ${res.status} ${text}`);
+  }
+  return await res.json();
+};

@@ -1,8 +1,8 @@
 const axios = require("axios");
 const JWT = require("../jwt/jwt");
 
-// 🔁 Cambia esta URL por tu Ngrok actual
-const SOAP_URL = "https://5339-190-12-13-19.ngrok-free.app/soap";
+
+const SOAP_URL = "http://localhost:8080/soap";
 
 const verificarAntecedentes = async (req, res) => {
   const authHeader = req.headers["authorization"];

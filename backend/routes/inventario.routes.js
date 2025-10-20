@@ -2,8 +2,8 @@
 
 const express = require('express');
 const router = express.Router();
-const { getInventario } = require('../controllers/inventario.controller');
+const { getInventario , addInventario} = require('../controllers/inventario.controller');
 
 router.get('/inventario', getInventario);
-
+router.post("/addInventario", addInventario);
 module.exports = router;    

@@ -8,7 +8,7 @@ app.use(
     origin: "http://localhost:3000", // o '*' para todos (solo en desarrollo)
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
-    credentials: true, 
+    credentials: true,
   })
 );
 
@@ -27,11 +27,13 @@ app.use("/api", changePasswordRoutes); // Accesibles en /api/change-password
 const inventarioRoutes = require("./routes/inventario.routes");
 app.use("/api", inventarioRoutes); // Accesibles en /api/inventario
 app.use("/api", require("./routes/soap.routes"));
-
+const facturaRoutes = require("./routes/factura.routes");
+app.use("/api", facturaRoutes); // Accesibles en /api/factura
+const userRoutes = require("./routes/user.routes");
+app.use("/api/user", userRoutes);
 // Conectar a la base de datos
 const connectDB = require("./config/db");
 connectDB();
-
 
 // Iniciar el servidor
 app.listen(4000, () => {

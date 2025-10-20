@@ -1,8 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { fetchProtectedData, getInventario } from "../services/api";
-import Facturar from "./Facturar"; // ajusta la ruta según tu estructura
-
+import Facturar from "./Facturar";
+import SubirInventario from "./SubirInventario";
+import Inventario from "./Inventario";
+import "@fortawesome/fontawesome-free/css/all.min.css"; // 👈 si usas FontAwesome vía npm
 
 const Dashboard = () => {
   const { logout, token } = useContext(AuthContext);
@@ -10,8 +12,6 @@ const Dashboard = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const [selectedPanel, setSelectedPanel] = useState("inicio");
-
-  const [image, setImage] = useState(null);
   const [inventory, setInventory] = useState([]);
 
   useEffect(() => {
@@ -20,82 +20,38 @@ const Dashboard = () => {
         const response = await fetchProtectedData(token);
         setData(response);
         setUser(response.user);
-        // Simulación de inventario
         const inventoryData = await getInventario(token);
         setInventory(inventoryData);
       } catch (err) {
         setError("No autorizado o error al cargar datos");
       }
     };
-
     if (token) loadData();
   }, [token]);
-
-  const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
-  };
-
-  const handleImageSubmit = (e) => {
-    e.preventDefault();
-    if (!image) return alert("Selecciona una imagen primero");
-    alert(`Imagen "${image.name}" enviada (simulación)`);
-    setImage(null);
-  };
 
   const renderPanel = () => {
     switch (selectedPanel) {
       case "inicio":
         return (
-          <div>
-            <h2>Bienvenido, {user.name}</h2>
+          <div className="dashboard-card">
+            <h3>Bienvenido, {user.name}</h3>
             <p>Email: {user.email}</p>
           </div>
         );
-      case "notificar":
-        return (
-          <div>
-            <h2>Notificar producto dañado</h2>
-            <form onSubmit={handleImageSubmit} className="image-form">
-              <input type="file" accept="image/*" onChange={handleImageChange} />
-              <button type="submit">Enviar imagen</button>
-              {image && <p>Seleccionado: {image.name}</p>}
-            </form>
-          </div>
-        );
       case "inventario":
-        return (
-          <div>
-            <h2>Inventario</h2>
-            <table className="inventory-table">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Nombre</th>
-                  <th>Categoria</th>
-                  <th>Cantidad</th>
-                  <th>Descripcion</th>
-                  <th>Ubicacion</th>
-                  <th>Estado</th>
-                </tr>
-              </thead>
-              <tbody>
-                {inventory.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.id}</td>
-                    <td>{item.nombre}</td>
-                    <td>{item.categoria}</td>
-                    <td>{item.cantidad}</td>
-                    <td>{item.descripcion}</td>
-                    <td>{item.ubicacion}</td>
-                    <td>{item.estado}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        );
+        return <Inventario token={token} />;
       case "facturar":
-        return <Facturar />; // Componente de facturación
+        return <Facturar />;
+      case "subirInventario":
+        return (
+          <SubirInventario
+            token={token}
+            onProductoAgregado={() => {
+              getInventario(token).then(setInventory);
+              setSelectedPanel("inventario");
+            }}
+          />
+        );
       default:
         return null;
     }
@@ -107,17 +63,39 @@ const Dashboard = () => {
   return (
     <div className="employee-dashboard">
       <aside className="sidebar">
-        <h3>Empleado</h3>
+        <h3>Panel Empleado</h3>
         <ul>
-          <li onClick={() => setSelectedPanel("inicio")}>Inicio</li>
-          <li onClick={() => setSelectedPanel("notificar")}>Notificar daño</li>
-          <li onClick={() => setSelectedPanel("inventario")}>Inventario</li>
-          <li onClick={() => setSelectedPanel("facturar")}>Facturar</li>
-          <li onClick={logout}>Cerrar sesión</li>
+          <li onClick={() => setSelectedPanel("inicio")}>
+            <i className="fas fa-home"></i> Inicio
+          </li>
+          <li onClick={() => setSelectedPanel("inventario")}>
+            <i className="fas fa-boxes"></i> Inventario
+          </li>
+          <li onClick={() => setSelectedPanel("subirInventario")}>
+            <i className="fas fa-upload"></i> Subir inventario
+          </li>
+          <li onClick={() => setSelectedPanel("facturar")}>
+            <i className="fas fa-file-invoice-dollar"></i> Facturar
+          </li>
+          <li onClick={logout}>
+            <i className="fas fa-sign-out-alt"></i> Cerrar sesión
+          </li>
         </ul>
       </aside>
 
       <main className="main-panel">
+        <div className="main-header">
+          <h2>
+            {selectedPanel === "inicio" && "Inicio"}
+            {selectedPanel === "inventario" && "Inventario"}
+            {selectedPanel === "subirInventario" && "Subir Inventario"}
+            {selectedPanel === "facturar" && "Facturar"}
+          </h2>
+          <button onClick={logout}>
+            <i className="fas fa-sign-out-alt"></i> Salir
+          </button>
+        </div>
+
         {renderPanel()}
       </main>
     </div>
