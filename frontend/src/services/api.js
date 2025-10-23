@@ -133,17 +133,28 @@ export const facturarCliente = async (factura, token) => {
 };
 
 
-export const getUserById = async (id, token) => {
-  const res = await fetch(`${API_URL}/api/${id}`, {
+export const getUserById = async (token, userId) => {
+  const res = await fetch(`${API_URL}/api/user/${userId}`, {
     method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) throw new Error("Error al obtener usuario");
+  return await res.json();
+};
+
+export const updateUserById = async (token, userId, userData) => {
+  const res = await fetch(`${API_URL}/api/user/${userId}`, {
+    method: "PUT",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
+    body: JSON.stringify(userData),
   });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`Error al obtener usuario: ${res.status} ${text}`);
-  }
+
+  if (!res.ok) throw new Error("Error al actualizar usuario");
   return await res.json();
 };

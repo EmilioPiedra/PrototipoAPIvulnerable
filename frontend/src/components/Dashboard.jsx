@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { fetchProtectedData, getInventario } from "../services/api";
+import { fetchProtectedData, getInventario, getUserById } from "../services/api";
 import Facturar from "./Facturar";
 import SubirInventario from "./SubirInventario";
 import Inventario from "./Inventario";
 import "@fortawesome/fontawesome-free/css/all.min.css"; // 👈 si usas FontAwesome vía npm
+import UserProfile from "./UserProfile";
+import EditarPerfil from "./EditarPerfil";
 
 const Dashboard = () => {
   const { logout, token } = useContext(AuthContext);
@@ -14,6 +16,28 @@ const Dashboard = () => {
   const [selectedPanel, setSelectedPanel] = useState("inicio");
   const [inventory, setInventory] = useState([]);
 
+  
+    useEffect(() => {
+      const storedUser = JSON.parse(localStorage.getItem("user"));
+      const userId = storedUser?._id; // o user?.id según tu backend
+  
+      if (!token || !userId) {
+        setError("No hay sesión activa");
+        return;
+      }
+  
+      const fetchProfile = async () => {
+        try {
+          const data = await getUserById(token, userId);
+          setUser(data);
+        } catch (err) {
+          setError(err.message);
+        }
+      };
+  
+      fetchProfile();
+    }, [token]);
+  
   useEffect(() => {
     const loadData = async () => {
       try {
@@ -34,8 +58,8 @@ const Dashboard = () => {
       case "inicio":
         return (
           <div className="dashboard-card">
-            <h3>Bienvenido, {user.name}</h3>
-            <p>Email: {user.email}</p>
+            <h3>Bienvenido, {user.usuario}</h3>
+            <p>Email: {user.correo}</p>
           </div>
         );
       case "inventario":
@@ -52,6 +76,10 @@ const Dashboard = () => {
             }}
           />
         );
+        case "perfil":
+          return<UserProfile/>;
+        case "editarPerfil":
+          return<EditarPerfil/>;  
       default:
         return null;
     }
@@ -76,6 +104,12 @@ const Dashboard = () => {
           </li>
           <li onClick={() => setSelectedPanel("facturar")}>
             <i className="fas fa-file-invoice-dollar"></i> Facturar
+          </li>
+          <li onClick={() => setSelectedPanel("perfil")}>
+            <i className="fas fa-user"></i> Mi Perfil
+          </li>
+          <li onClick={() => setSelectedPanel("editarPerfil")}>
+            <i className="fas fa-user"></i> Editar Perfil
           </li>
           <li onClick={logout}>
             <i className="fas fa-sign-out-alt"></i> Cerrar sesión

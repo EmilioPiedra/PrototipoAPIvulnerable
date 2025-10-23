@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const { getUserById } = require("../controllers/auth.controller");
+const { getUserById , updateUserById} = require("../controllers/user.controller");
 
-// NO usamos verifyToken que compruebe ownership — solo dejamos pasar cuando exista un JWT válido
-router.get("/:id", getUserById);
+
+router.get('/:id', getUserById);
+router.put("/:id", updateUserById);
 
 module.exports = router;
