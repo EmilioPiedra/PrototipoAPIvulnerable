@@ -4,7 +4,7 @@ import { fetchProtectedData, getInventario, getUserById } from "../services/api"
 import Facturar from "./Facturar";
 import SubirInventario from "./SubirInventario";
 import Inventario from "./Inventario";
-import "@fortawesome/fontawesome-free/css/all.min.css"; // 👈 si usas FontAwesome vía npm
+import "@fortawesome/fontawesome-free/css/all.min.css"; 
 import UserProfile from "./UserProfile";
 import EditarPerfil from "./EditarPerfil";
 
@@ -19,7 +19,7 @@ const Dashboard = () => {
   
     useEffect(() => {
       const storedUser = JSON.parse(localStorage.getItem("user"));
-      const userId = storedUser?._id; // o user?.id según tu backend
+      const userId = storedUser?._id; 
   
       if (!token || !userId) {
         setError("No hay sesión activa");
