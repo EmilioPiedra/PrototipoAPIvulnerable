@@ -20,8 +20,7 @@ const Login = () => {
     setError("");
     try {
       const data = await loginAPI(usuario, password);
-      login(data.token);
-      localStorage.setItem("token", data.token);
+      login(data.accessToken, data.user);
       localStorage.setItem("user", JSON.stringify(data.user));
       // Obtener el rango del usuario
       const rango = data.user?._userInfo?.rango;

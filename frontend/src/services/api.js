@@ -50,9 +50,12 @@ export const changePassword = async ({ usuario, otp, nuevaPassword }) => {
 
 export const getUsers = async (token) => {
   const res = await fetch(`${API_URL}/api/users`, {
-    headers: { Authorization: `Bearer ${token}` },
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
   });
-  if (!res.ok) throw new Error("No autorizado o usuario no encontrado");
+  if (!res.ok) throw new Error("No autorizado");
   return await res.json();
 };
 

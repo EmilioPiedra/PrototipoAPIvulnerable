@@ -1,9 +1,9 @@
-const express = require("express");
+// routes/user.routes.js
+const express = require('express');
 const router = express.Router();
-const { getUserById , updateUserById} = require("../controllers/user.controller");
+const { authenticate } = require('../middlewares/auth.js');
+const { getUserById } = require('../controllers/user.controller');
 
-
-router.get('/:id', getUserById);
-router.put("/:id", updateUserById);
+router.get('/:id', authenticate, getUserById);
 
 module.exports = router;

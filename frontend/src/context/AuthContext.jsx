@@ -8,9 +8,11 @@ export const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const login = (jwt) => {
-    localStorage.setItem('token', jwt);
-    setToken(jwt);
+  const login = (jwt, user) => {
+  localStorage.setItem('token', jwt);
+  localStorage.setItem('user', JSON.stringify(user));
+  setToken(jwt);
+  setUserData(user);
   };
 
   const logout = () => {

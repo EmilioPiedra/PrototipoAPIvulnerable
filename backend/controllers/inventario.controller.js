@@ -1,5 +1,5 @@
-const JWT = require("../jwt/jwt");
-const Inventario = require("../models/Inventario"); // Modelo de Mongo
+const jwt = require("jsonwebtoken");
+const Inventario = require("../models/Inventario");
 
 const getInventario = async (req, res) => {
   const authHeader = req.headers["authorization"];
@@ -8,21 +8,19 @@ const getInventario = async (req, res) => {
   }
 
   const token = authHeader.split(" ")[1];
-  const jwt = new JWT();
-  const decoded = jwt.decode({ token, secret: process.env.JWT_SECRET || "mi_llave_secreta" });
 
-  if (!decoded) {
+  let decoded;
+  try {
+    decoded = jwt.verify(token, process.env.JWT_SECRET || "mi_llave_secreta");
+  } catch (err) {
     return res.status(401).json({ error: "Token inválido o expirado" });
   }
 
   try {
-    const inventario = await Inventario.find(); // Consulta a Mongo
+    const inventario = await Inventario.find();
     return res.json(inventario);
   } catch (err) {
-    return res.status(500).json({
-      error: "Error extrayendo el inventario desde MongoDB",
-      details: err.message,
-    });
+    return res.status(500).json({ error: "Error extrayendo inventario", details: err.message });
   }
 };
 
