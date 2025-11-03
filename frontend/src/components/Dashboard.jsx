@@ -1,92 +1,66 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { fetchProtectedData, getInventario, getUserById } from "../services/api";
-import Facturar from "./Facturar";
-import SubirInventario from "./SubirInventario";
-import Inventario from "./Inventario";
-import "@fortawesome/fontawesome-free/css/all.min.css"; 
+import { fetchProtectedData, getUserById, getInventario, createCompra  } from "../services/api";
 import UserProfile from "./UserProfile";
 import EditarPerfil from "./EditarPerfil";
+import ComprarProductos from "./ComprarProductos";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const Dashboard = () => {
   const { logout, token } = useContext(AuthContext);
-  const [data, setData] = useState(null);
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const [selectedPanel, setSelectedPanel] = useState("inicio");
   const [inventory, setInventory] = useState([]);
+  const [cart, setCart] = useState([]);
 
-  
-    useEffect(() => {
-      const storedUser = JSON.parse(localStorage.getItem("user"));
-      const userId = storedUser?._id; 
-  
-      if (!token || !userId) {
-        setError("No hay sesión activa");
-        return;
-      }
-  
-      const fetchProfile = async () => {
-        try {
-          const data = await getUserById(token, userId);
-          setUser(data);
-        } catch (err) {
-          setError(err.message);
-        }
-      };
-  
-      fetchProfile();
-    }, [token]);
-  
   useEffect(() => {
-    const loadData = async () => {
+    const init = async () => {
       try {
-        const response = await fetchProtectedData(token);
-        setData(response);
-        setUser(response.user);
-        const inventoryData = await getInventario(token);
-        setInventory(inventoryData);
+        const storedUser = JSON.parse(localStorage.getItem("user"));
+        const userId = storedUser?._id;
+        if (!token || !userId) return setError("No hay sesión activa");
+
+        const [profile, inventario] = await Promise.all([
+          getUserById(token, userId),
+          getInventario(token),
+        ]);
+        setUser(profile);
+        setInventory(inventario);
       } catch (err) {
-        setError("No autorizado o error al cargar datos");
+        setError("Error al cargar datos: " + err.message);
       }
     };
-    if (token) loadData();
+    if (token) init();
   }, [token]);
 
+ 
+
+  const total = cart.reduce((sum, p) => sum + p.precio * p.cantidad, 0);
+
+ 
   const renderPanel = () => {
     switch (selectedPanel) {
       case "inicio":
         return (
-          <div className="dashboard-card">
+          <div>
             <h3>Bienvenido, {user.usuario}</h3>
-            <p>Email: {user.correo}</p>
+            <p>Correo: {user.correo}</p>
           </div>
         );
-      case "inventario":
-        return <Inventario token={token} />;
-      case "facturar":
-        return <Facturar />;
-      case "subirInventario":
-        return (
-          <SubirInventario
-            token={token}
-            onProductoAgregado={() => {
-              getInventario(token).then(setInventory);
-              setSelectedPanel("inventario");
-            }}
-          />
-        );
-        case "perfil":
-          return<UserProfile/>;
-        case "editarPerfil":
-          return<EditarPerfil/>;  
+      case "comprar":
+        return <ComprarProductos />;
+      case "perfil":
+        return <UserProfile />;
+      case "editarPerfil":
+        return <EditarPerfil />;
       default:
         return null;
     }
   };
 
   if (error) return <p>{error}</p>;
-  if (!data || !user) return <p>Cargando...</p>;
+  if (!user) return <p>Cargando...</p>;
 
   return (
     <div className="employee-dashboard">
@@ -96,20 +70,14 @@ const Dashboard = () => {
           <li onClick={() => setSelectedPanel("inicio")}>
             <i className="fas fa-home"></i> Inicio
           </li>
-          <li onClick={() => setSelectedPanel("inventario")}>
-            <i className="fas fa-boxes"></i> Inventario
-          </li>
-          <li onClick={() => setSelectedPanel("subirInventario")}>
-            <i className="fas fa-upload"></i> Subir inventario
-          </li>
-          <li onClick={() => setSelectedPanel("facturar")}>
-            <i className="fas fa-file-invoice-dollar"></i> Facturar
+          <li onClick={() => setSelectedPanel("comprar")}>
+            <i className="fas fa-shopping-cart"></i> Comprar Productos
           </li>
           <li onClick={() => setSelectedPanel("perfil")}>
             <i className="fas fa-user"></i> Mi Perfil
           </li>
           <li onClick={() => setSelectedPanel("editarPerfil")}>
-            <i className="fas fa-user"></i> Editar Perfil
+            <i className="fas fa-user-edit"></i> Editar Perfil
           </li>
           <li onClick={logout}>
             <i className="fas fa-sign-out-alt"></i> Cerrar sesión
@@ -118,18 +86,6 @@ const Dashboard = () => {
       </aside>
 
       <main className="main-panel">
-        <div className="main-header">
-          <h2>
-            {selectedPanel === "inicio" && "Inicio"}
-            {selectedPanel === "inventario" && "Inventario"}
-            {selectedPanel === "subirInventario" && "Subir Inventario"}
-            {selectedPanel === "facturar" && "Facturar"}
-          </h2>
-          <button onClick={logout}>
-            <i className="fas fa-sign-out-alt"></i> Salir
-          </button>
-        </div>
-
         {renderPanel()}
       </main>
     </div>

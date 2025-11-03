@@ -158,3 +158,40 @@ export const updateUserById = async (token, userId, userData) => {
   if (!res.ok) throw new Error("Error al actualizar usuario");
   return await res.json();
 };
+
+
+
+// --------------------------- COMPRAS ---------------------------
+
+// Crear compra (inseguro)
+export const createCompra = async (token, payload) => {
+  const res = await fetch(`${API_URL}/api/compra`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) throw new Error("Error al crear compra");
+  return await res.json();
+};
+
+// Obtener historial de compras (inseguro, filtra por UUID)
+export const obtenerCompras = async (token) => {
+  const res = await fetch(`${API_URL}/api/compra`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error("Error obteniendo compras");
+  return await res.json();
+};
+
+// Eliminar compra (inseguro)
+export const eliminarCompra = async (id, token) => {
+  const res = await fetch(`${API_URL}/api/compra/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error("Error al eliminar compra");
+  return await res.json();
+};

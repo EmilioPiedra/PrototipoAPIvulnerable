@@ -4,6 +4,7 @@ const inventarioSchema = new mongoose.Schema({
   nombre: String,
   categoria: String,
   cantidad: Number,
+  precio: Number,
   estado: String,
   descripcion: String,
   ubicacion: String,
