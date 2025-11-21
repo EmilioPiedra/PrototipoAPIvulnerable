@@ -1,7 +1,7 @@
 const JWT = require("../jwt/jwt");
 const User = require("../models/User"); // modelo de MongoDB
 
-// ✅ Obtener todos los usuarios
+// Obtener todos los usuarios
 const getUsers = async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   const jwt = new JWT();
@@ -17,7 +17,7 @@ const getUsers = async (req, res) => {
   }
 };
 
-// ✅ Actualizar usuario por `usuario`
+// Actualizar usuario por `usuario`
 const actualizarUser = async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   const jwt = new JWT();
@@ -43,7 +43,7 @@ const actualizarUser = async (req, res) => {
   }
 };
 
-// ✅ Eliminar usuario por `usuario`
+//  Eliminar usuario por `usuario`
 const eliminarUser = async (req, res) => {
   const token = req.headers["authorization"]?.split(" ")[1];
   const jwt = new JWT();
