@@ -1,13 +1,11 @@
 // routes/auth.routes.js
 
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const { login, refresh, logout, getUserToken } = require('../controllers/auth.controller');
+const rateLimit = require("../middlewares/rateLimit.middleware");
+const { login } = require("../controllers/auth.controller");
+const { loginValidator } = require("../validators/Auth.validator");
 
-router.post('/login', login);
-router.post('/refresh', refresh);
-router.post('/logout', logout);
-router.get('/protected', getUserToken);
+router.post("/login", rateLimit, loginValidator, login);
 
 module.exports = router;
-
