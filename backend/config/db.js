@@ -1,20 +1,23 @@
 const mongoose = require("mongoose");
+const logger = require("../utils/logger"); // Usamos el logger que creamos
 
 const connectDB = async () => {
   try {
     const uri = process.env.MONGO_URI;
+    
     if (!uri) {
-      throw new Error("❌ MONGO_URI no está definida en el archivo .env");
+      throw new Error("MONGO_URI no está definida en el archivo .env");
     }
 
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    // Conexión limpia (sin opciones deprecadas)
+    const conn = await mongoose.connect(uri);
 
-    console.log("✅ MongoDB conectado correctamente");
+    logger.info(`MongoDB Conectado: ${conn.connection.host}`);
+    console.log(`MongoDB Conectado: ${conn.connection.host}`);
+    
   } catch (error) {
-    console.error("❌ Error conectando a MongoDB:", error.message);
+    logger.error("Error conectando a MongoDB", { error: error.message });
+    console.error(`Error: ${error.message}`);
     process.exit(1);
   }
 };

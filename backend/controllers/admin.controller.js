@@ -1,68 +1,78 @@
-const JWT = require("../jwt/jwt");
-const User = require("../models/User"); // modelo de MongoDB
+const User = require("../models/User");
+const bcrypt = require("bcryptjs");
+const logger = require("../utils/logger");
 
-// ✅ Obtener todos los usuarios
+// GET /api/users (Solo Admin)
 const getUsers = async (req, res) => {
-  const token = req.headers["authorization"]?.split(" ")[1];
-  const jwt = new JWT();
-  const decoded = jwt.decode({ token, secret: process.env.JWT_SECRET || "mi_llave_secreta" });
-
-  if (!decoded) return res.status(401).json({ error: "Token inválido o expirado" });
-
   try {
-    const users = await User.find();
-    return res.json(users);
+    const users = await User.find().select("-password");
+    res.json(users);
   } catch (err) {
-    return res.status(500).json({ error: "Error leyendo usuarios", details: err.message });
+    logger.safeError("Error al obtener usuarios (Admin)", { 
+        admin: req.user.usuario, 
+        error: err.message 
+    });
+    res.status(500).json({ error: "Error al obtener usuarios" });
   }
 };
 
-// ✅ Actualizar usuario por `usuario`
+// PUT /api/actualizar/:usuario (Solo Admin)
 const actualizarUser = async (req, res) => {
-  const token = req.headers["authorization"]?.split(" ")[1];
-  const jwt = new JWT();
-  const decoded = jwt.decode({ token, secret: process.env.JWT_SECRET || "mi_llave_secreta" });
-
-  if (!decoded) return res.status(401).json({ error: "Token inválido o expirado" });
-
   const { usuario } = req.params;
-  const newData = req.body;
+  const { correo, cedula, telefono, _userInfo, password } = req.body;
 
   try {
-    const user = await User.findOneAndUpdate(
-      { usuario },
-      { $set: newData },
-      { new: true }
-    );
-
-    if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
-
-    return res.json({ message: "Usuario actualizado", user });
-  } catch (err) {
-    return res.status(500).json({ error: "Error actualizando usuario", details: err.message });
-  }
-};
-
-// ✅ Eliminar usuario por `usuario`
-const eliminarUser = async (req, res) => {
-  const token = req.headers["authorization"]?.split(" ")[1];
-  const jwt = new JWT();
-  const decoded = jwt.decode({ token, secret: process.env.JWT_SECRET || "mi_llave_secreta" });
-
-  if (!decoded) return res.status(401).json({ error: "Token inválido o expirado" });
-
-  const { usuario } = req.params;
-
-  try {
-    const result = await User.deleteOne({ usuario });
-
-    if (result.deletedCount === 0) {
+    const userToUpdate = await User.findOne({ usuario });
+    if (!userToUpdate) {
       return res.status(404).json({ error: "Usuario no encontrado" });
     }
 
-    return res.json({ message: "Usuario eliminado correctamente" });
+    // Actualizamos campos permitidos
+    if (correo) userToUpdate.correo = correo;
+    if (cedula) userToUpdate.cedula = cedula;
+    if (telefono) userToUpdate.telefono = telefono;
+    if (_userInfo) userToUpdate._userInfo = _userInfo;
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      userToUpdate.password = await bcrypt.hash(password, salt);
+    }
+
+    await userToUpdate.save();
+
+    logger.info("Usuario actualizado por Admin", { 
+        admin: req.user.usuario, 
+        targetUser: usuario 
+    });
+
+    const userResponse = userToUpdate.toObject();
+    delete userResponse.password;
+
+    res.json({ message: "Usuario actualizado correctamente", user: userResponse });
   } catch (err) {
-    return res.status(500).json({ error: "Error eliminando usuario", details: err.message });
+    logger.safeError("Error actualizando usuario", { error: err.message });
+    res.status(500).json({ error: "Error al actualizar usuario" });
+  }
+};
+
+// DELETE /api/eliminar/:usuario (Solo Admin)
+const eliminarUser = async (req, res) => {
+  const { usuario } = req.params;
+  try {
+    const deleted = await User.findOneAndDelete({ usuario });
+    if (!deleted) {
+      return res.status(404).json({ error: "Usuario no encontrado" });
+    }
+
+    logger.info("Usuario ELIMINADO por Admin", { 
+        admin: req.user.usuario, 
+        deletedUser: usuario 
+    });
+
+    res.json({ message: `Usuario ${usuario} eliminado correctamente` });
+  } catch (err) {
+    logger.safeError("Error eliminando usuario", { error: err.message });
+    res.status(500).json({ error: "Error al eliminar usuario" });
   }
 };
 

@@ -1,0 +1,42 @@
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-01 11:36:19"}
+{"error":"Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/","level":"error","message":"Error conectando a MongoDB","service":"api-veterinaria","timestamp":"2025-12-01 11:36:49"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-01 11:38:20"}
+{"error":"Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/","level":"error","message":"Error conectando a MongoDB","service":"api-veterinaria","timestamp":"2025-12-01 11:38:51"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-01 11:41:02"}
+{"error":"Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/","level":"error","message":"Error conectando a MongoDB","service":"api-veterinaria","timestamp":"2025-12-01 11:41:32"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-01 13:08:43"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-00.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-01 13:08:44"}
+{"level":"warn","message":"Intento de login fallido: Usuario no encontrado","service":"api-veterinaria","timestamp":"2025-12-01 13:10:20","usuario":"admin"}
+{"level":"warn","message":"Intento de login fallido: Password incorrecto","service":"api-veterinaria","timestamp":"2025-12-01 13:10:47","usuario":"Emilio"}
+{"level":"warn","message":"Intento de login fallido: Password incorrecto","service":"api-veterinaria","timestamp":"2025-12-01 13:10:48","usuario":"Emilio"}
+{"level":"warn","message":"Intento de login fallido: Password incorrecto","service":"api-veterinaria","timestamp":"2025-12-01 13:11:28","usuario":"Emilio"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-01 13:12:18"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-01.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-01 13:12:20"}
+{"level":"info","message":"Login exitoso","service":"api-veterinaria","timestamp":"2025-12-01 13:12:27","usuario":"Emilio"}
+{"level":"info","message":"Login exitoso","service":"api-veterinaria","timestamp":"2025-12-01 13:13:10","usuario":"Emilio"}
+{"level":"info","message":"Login exitoso","service":"api-veterinaria","timestamp":"2025-12-01 13:13:11","usuario":"Emilio"}
+{"level":"info","message":"Login exitoso","service":"api-veterinaria","timestamp":"2025-12-01 13:13:12","usuario":"Emilio"}
+{"level":"info","message":"Login exitoso","service":"api-veterinaria","timestamp":"2025-12-01 13:13:13","usuario":"Emilio"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-01 13:14:53"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-02.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-01 13:14:55"}
+{"level":"info","message":"Login exitoso","service":"api-veterinaria","timestamp":"2025-12-01 13:15:02","usuario":"Emilio"}
+{"level":"info","message":"Login exitoso","service":"api-veterinaria","timestamp":"2025-12-01 13:17:47","usuario":"Pepe"}
+{"error":"Expected ',' or '}' after property value in JSON at position 30 (line 3 column 5)","level":"error","message":"Error No Controlado (Uncaught Exception)","method":"POST","path":"/api/login","service":"api-veterinaria","timestamp":"2025-12-01 13:23:15"}
+{"level":"info","message":"Login exitoso","service":"api-veterinaria","timestamp":"2025-12-01 13:23:25","usuario":"Pepe"}
+{"level":"info","message":"Login exitoso","service":"api-veterinaria","timestamp":"2025-12-01 13:27:42","usuario":"Emilio"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-01 13:28:09"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-00.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-01 13:28:11"}
+{"level":"info","message":"Login exitoso","service":"api-veterinaria","timestamp":"2025-12-01 13:28:23","usuario":"Emilio"}
+{"ip":"::1","level":"warn","message":"Ruta no encontrada (404): /api/request-otp","service":"api-veterinaria","timestamp":"2025-12-01 13:28:33"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-01 13:43:53"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-01.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-01 13:43:54"}
+{"level":"warn","message":"Intento de login fallido: Usuario no encontrado","service":"api-veterinaria","timestamp":"2025-12-01 13:44:19","usuario":"Emilio"}
+{"level":"warn","message":"Intento de login fallido: Usuario no encontrado","service":"api-veterinaria","timestamp":"2025-12-01 13:44:33","usuario":"Admin"}
+{"level":"info","message":"Login exitoso","service":"api-veterinaria","timestamp":"2025-12-01 13:44:41","usuario":"admin"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-01 13:56:44"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-02.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-01 13:56:46"}
+{"level":"info","message":"Login exitoso","service":"api-veterinaria","timestamp":"2025-12-01 13:56:53","usuario":"userB"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-01 14:04:46"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-00.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-01 14:04:48"}
+{"level":"info","message":"OTP generado","service":"api-veterinaria","timestamp":"2025-12-01 14:04:59","usuario":"userB"}
+{"level":"info","message":"OTP generado","service":"api-veterinaria","timestamp":"2025-12-01 14:09:28","usuario":"userA"}

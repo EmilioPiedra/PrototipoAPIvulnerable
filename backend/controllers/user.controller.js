@@ -1,39 +1,57 @@
-const JWT = require("../jwt/jwt");
-const User = require("../models/User"); 
+const User = require("../models/User");
+const logger = require("../utils/logger");
 
-// GET /user/:id
 const getUserById = async (req, res) => {
+  const { id } = req.params;
+  const requestingUser = req.user;
+
   try {
-    const user = await User.findById(req.params.id).select('-password -__v');
-    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
-    return res.json(user.toSafeJSON ? user.toSafeJSON() : user);
+    if (requestingUser.id !== id && requestingUser._userInfo.rango !== 'admin') {
+      logger.warn(`Intento de IDOR detectado`, { 
+          atacante: requestingUser.usuario, 
+          victimaID: id 
+      });
+      return res.status(403).json({ error: "Acceso denegado" });
+    }
+
+    const user = await User.findById(id).select("-password");
+    if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
+
+    res.json(user);
   } catch (err) {
-    return res.status(500).json({ error: 'Error interno', details: err.message });
+    logger.safeError("Error obteniendo usuario", { error: err.message });
+    res.status(500).json({ error: "Error al obtener usuario" });
   }
 };
 
-// PUT /user/:id (whitelist)
 const updateUserById = async (req, res) => {
+  const { id } = req.params;
+  const requestingUser = req.user;
+  const { correo, telefono } = req.body;
+
   try {
-    // Campos permitidos a actualizar por el propio usuario
-    const allowed = ['usuario', 'email'];
-    const updates = {};
-    for (const field of allowed) {
-      if (req.body[field] !== undefined) updates[field] = req.body[field];
+    if (requestingUser.id !== id && requestingUser._userInfo.rango !== 'admin') {
+      logger.warn(`Intento de IDOR en Update detectado`, { 
+          atacante: requestingUser.usuario, 
+          victimaID: id 
+      });
+      return res.status(403).json({ error: "Acceso denegado" });
     }
 
-    // Si el usuario quiere cambiar contraseña: endpoint separado /user/:id/change-password
-    if (Object.keys(updates).length === 0) {
-      return res.status(400).json({ error: 'Nada para actualizar o campos no permitidos' });
-    }
+    const updatedUser = await User.findByIdAndUpdate(
+      id,
+      { correo, telefono },
+      { new: true, runValidators: true }
+    ).select("-password");
 
-    const user = await User.findByIdAndUpdate(req.params.id, updates, { new: true }).select('-password -__v');
-    if (!user) return res.status(404).json({ error: 'Usuario no encontrado' });
-    return res.json(user.toSafeJSON ? user.toSafeJSON() : user);
+    if (!updatedUser) return res.status(404).json({ error: "Usuario no encontrado" });
+
+    logger.info("Perfil actualizado", { usuario: updatedUser.usuario });
+    res.json({ message: "Perfil actualizado", user: updatedUser });
   } catch (err) {
-    return res.status(500).json({ error: 'Error al actualizar', details: err.message });
+    logger.safeError("Error actualizando perfil", { error: err.message });
+    res.status(500).json({ error: "Error al actualizar perfil" });
   }
 };
-
 
 module.exports = { getUserById, updateUserById };

@@ -1,53 +1,79 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+
 require("dotenv").config({ path: "../.env" });
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs");
+// IMPORTANTE: Asegúrate de que la ruta apunte a tu archivo User.js
+// Aunque el archivo se llame User.js, dentro exporta el modelo "UserSeguro"
+const UserSeguro = require("./models/User"); 
 
-const UserSeguroSchema = new mongoose.Schema({
-  usuario: { type: String, required: true },
-  correo: { type: String, required: true },
-  cedula: { type: String, required: true },
-  telefono: { type: String, required: true },
-  password: { type: String, required: true },
-  createdAt: { type: Date, default: Date.now },
-  _userInfo: {
-    rango: { type: String, required: true },
-    creditos: { type: Number, default: 0 },
-  }
-});
-
-const UserSeguro = mongoose.model("usersSeguro", UserSeguroSchema);
-
-const usersOld = [
-  { usuario: "Emilio", correo: "emilio@gmail.com", cedula: "1102557832", telefono: "0991234567", password: "clave123", rango: "admin" },
-  { usuario: "Pepe", correo: "pepe@gmail.com", cedula: "1102557833", telefono: "0991234567", password: "clave123", rango: "user" },
-  { usuario: "Juan", correo: "Juan@gmail.com", cedula: "1102557834", telefono: "0991234567", password: "clave123", rango: "user" }
-];
-
-const insertarUsuarios = async () => {
+const seedUsers = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI);
-    console.log("✅ Conectado a MongoDB");
-
-    for (const user of usersOld) {
-      const hashedPassword = await bcrypt.hash(user.password, 12); // bcrypt seguro
-      await UserSeguro.create({
-        usuario: user.usuario,
-        correo: user.correo,
-        cedula: user.cedula,
-        telefono: user.telefono,
-        password: hashedPassword,
-        _userInfo: { rango: user.rango, creditos: 10 },
-        createdAt: new Date()
-      });
-      console.log(`✅ Usuario ${user.usuario} insertado`);
+    // 1. Conectar a la BD
+    if (!process.env.MONGO_URI) {
+        throw new Error("Falta MONGO_URI en .env");
     }
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("✅ Conectado a MongoDB (Colección Segura)...");
 
-    console.log("✅ Todos los usuarios insertados en usersSeguro");
+    // 2. Limpiar usuarios viejos de la colección 'usersSeguro'
+    await UserSeguro.deleteMany({});
+    console.log("🗑️ Colección 'usersSeguro' limpiada.");
+
+    // 3. Generar Hash seguro (Pass: 123456)
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash("123456", salt);
+
+    // 4. Crear Usuarios
+
+    // --- ADMIN ---
+    await UserSeguro.create({
+      usuario: "admin",
+      correo: "admin@test.com",
+      password: passwordHash,
+      telefono: "0999999999",
+      cedula: "1100000000",
+      _userInfo: {
+        rango: "admin",
+        creditos: 1000
+      }
+    });
+    console.log("👤 Admin creado: usuario='admin' pass='123456'");
+
+    // --- USER A (Víctima) ---
+    const userA = await UserSeguro.create({
+      usuario: "userA",
+      correo: "usera@test.com",
+      password: passwordHash,
+      telefono: "0988888888",
+      cedula: "1100000001",
+      _userInfo: {
+        rango: "user",
+        creditos: 10
+      }
+    });
+    console.log(`👤 User A creado (ID: ${userA._id})`);
+
+    // --- USER B (Atacante) ---
+    const userB = await UserSeguro.create({
+      usuario: "userB",
+      correo: "userb@test.com",
+      password: passwordHash,
+      telefono: "0977777777",
+      cedula: "1100000002",
+      _userInfo: {
+        rango: "user",
+        creditos: 20
+      }
+    });
+    console.log(`👤 User B creado (ID: ${userB._id})`);
+
+    console.log("\n✅ ¡Datos de prueba insertados en usersSeguro!");
     process.exit();
-  } catch (err) {
-    console.error("❌ Error al insertar usuarios:", err);
+
+  } catch (error) {
+    console.error("❌ Error en el seeding:", error);
     process.exit(1);
   }
 };
 
-insertarUsuarios();
+seedUsers();
