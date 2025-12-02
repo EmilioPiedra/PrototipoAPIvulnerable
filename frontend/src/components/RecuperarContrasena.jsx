@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { requestOtp, verifyOtp, changePassword } from "../services/api";
+import { requestPasswordReset, verifyPasswordResetOtp, changePassword } from '../services/api';
 
 export default function RecuperarContrasena() {
   const [usuario, setUsuario] = useState("");
@@ -11,7 +11,7 @@ export default function RecuperarContrasena() {
 
   const manejarSolicitudOtp = async () => {
     try {
-      const res = await requestOtp(usuario);
+      const res = await requestPasswordReset(usuario);
       setMensaje(res.mensaje || "OTP enviado");
       setTipoMensaje("success");
       setPaso(2);
@@ -23,7 +23,7 @@ export default function RecuperarContrasena() {
 
   const manejarValidarOtp = async () => {
     try {
-      const res = await verifyOtp({ usuario, otp });
+      const res = await verifyPasswordResetOtp({ usuario, otp });
       if (res.valido) {
         setMensaje("OTP validado. Ingresa tu nueva contraseña.");
         setTipoMensaje("success");

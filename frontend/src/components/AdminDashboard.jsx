@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { fetchProtectedData, getUsers, deleteUser, updateUser } from "../services/api";
+import { fetchProtectedData, getUsers, updateUserAdmin, deleteUserAdmin } from '../services/api';
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const DashboardAdmin = () => {
@@ -27,13 +27,14 @@ const DashboardAdmin = () => {
   }, [token]);
 
   const handleDelete = async (usuario) => {
-    try {
-      await deleteUser(usuario, token);
-      setUsers(users.filter((u) => u.usuario !== usuario));
-    } catch (err) {
-      alert("Error al eliminar usuario: " + err.message);
-    }
-  };
+      try {
+        // Orden correcto: (token, usuarioTarget)
+        await deleteUserAdmin(token, usuario); 
+        setUsers(users.filter((u) => u.usuario !== usuario));
+      } catch (err) {
+        alert("Error al eliminar usuario: " + err.message);
+      }
+    };
 
   const handleEditClick = (user) => {
     setEditingUser(user);
@@ -44,19 +45,21 @@ const DashboardAdmin = () => {
   };
 
   const handleUpdate = async () => {
-    try {
-      await updateUser(
-        editingUser.usuario,
-        { correo: editForm.correo, rango: editForm.rango },
-        token
-      );
-      const updatedUsers = await getUsers(token);
-      setUsers(updatedUsers);
-      setEditingUser(null);
-    } catch (err) {
-      alert("Error al actualizar usuario: " + err.message);
-    }
-  };
+      try {
+        // Orden correcto: (token, usuarioTarget, data)
+        await updateUserAdmin(
+          token,                          // 1. Token va primero
+          editingUser.usuario,            // 2. Usuario Target va segundo
+          { correo: editForm.correo, rango: editForm.rango } // 3. Datos van al final
+        );
+        
+        const updatedUsers = await getUsers(token);
+        setUsers(updatedUsers);
+        setEditingUser(null);
+      } catch (err) {
+        alert("Error al actualizar usuario: " + err.message);
+      }
+    };
 
   if (error) return <p>{error}</p>;
   if (!protectedData || users.length === 0) return <p>Cargando...</p>;

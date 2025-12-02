@@ -8,13 +8,21 @@ const { protect } = require('../middlewares/auth.middleware');
 const { authorize } = require('../middlewares/role.middleware');
 const { validateRequest } = require('../middlewares/validate.middleware');
 
-// Ver inventario: Permitido para usuarios y admins
+// --- CORRECCIÓN 1: NO USAR authLimiter AQUÍ ---
+// (Usamos solo el global de 100 peticiones que está en index.js)
+
+// --- CORRECCIÓN 2: PERMISOS ---
+
+// 1. Ver inventario (GET)
+// Solo 'protect'. CUALQUIER usuario logueado puede ver.
+// NO ponemos authorize('admin') aquí.
 router.get('/inventario', protect, getInventario);
 
-// Agregar inventario: SOLO ADMIN
+// 2. Agregar ítems (POST)
+// Aquí SÍ exigimos ser ADMIN.
 router.post('/addInventario',
     protect,
-    authorize('admin'), // Solo admin crea productos
+    authorize('admin'), // <--- Solo el admin puede crear
     [
         check('nombre', 'El nombre es obligatorio').not().isEmpty(),
         check('cantidad', 'La cantidad debe ser un número positivo').isInt({ min: 0 }),

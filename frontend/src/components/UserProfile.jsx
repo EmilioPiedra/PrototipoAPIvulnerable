@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { getUserById } from "../services/api";
-
+import { getUserProfile, updateUserProfile } from '../services/api';
 const UserProfile = () => {
   const { token } = useContext(AuthContext);
   const [user, setUser] = useState(null);
@@ -18,7 +17,7 @@ const UserProfile = () => {
 
     const fetchProfile = async () => {
       try {
-        const data = await getUserById(token, userId);
+        const data = await getUserProfile(token, userId);
         setUser(data);
       } catch (err) {
         setError(err.message);
