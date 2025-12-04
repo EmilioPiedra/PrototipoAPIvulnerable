@@ -3,35 +3,42 @@ const JWT = require("../jwt/jwt");
 const User = require("../models/User"); 
 
 const login = async (req, res) => {
+  // 1. Recibimos los datos. En un ataque, 'password' puede ser un objeto JSON.
   const { usuario, password } = req.body;
 
   if (!usuario || !password) {
     return res.status(400).json({ error: "Faltan campos: usuario o password" });
   }
 
-  const hashedPassword = crypto
-    .createHmac("ripemd160", "change_key_private_")
-    .update(password)
-    .digest("base64");
-
   try {
-    const user = await User.findOne({ usuario });
+    let passwordParaBuscar = password;
+
+    // --- PREPARACIÓN DEL ENTORNO VULNERABLE ---
+    // Si el usuario envía una contraseña normal (String), la hasheamos para compararla.
+    // Si el atacante envía un Objeto (ej: { "$ne": "..." }), saltamos el hash 
+    // para evitar que el servidor crashee y permitir que el objeto llegue a Mongo.
+    if (typeof password === 'string') {
+        passwordParaBuscar = crypto
+          .createHmac("ripemd160", "change_key_private_") // Asegúrate que esta key coincida con tu registro
+          .update(password)
+          .digest("base64");
+    }
+
+    // --- AQUÍ ESTÁ LA VULNERABILIDAD ---
+    // Delegamos la validación TOTAL a la base de datos.
+    // Si inyectamos { "$ne": "basura" }, Mongo buscará:
+    // "Usuario admin Y cuyo password NO SEA 'basura'". 
+    // Como el hash real no es 'basura', devuelve el usuario y entra.
+    const user = await User.findOne({ 
+        usuario: usuario, 
+        password: passwordParaBuscar 
+    });
 
     if (!user) {
       return res.status(401).json({ error: "Usuario o contraseña incorrecto" });
     }
 
-    // Comparar hashes de forma segura
-    const storedBuffer = Buffer.from(user.password, "base64");
-    const inputBuffer = Buffer.from(hashedPassword, "base64");
-
-    if (
-      storedBuffer.length !== inputBuffer.length ||
-      !crypto.timingSafeEqual(storedBuffer, inputBuffer)
-    ) {
-      return res.status(401).json({ error: "Usuario o contraseña incorrecto" });
-    }
-
+    // Generamos el UUID y el Token (Tu lógica original)
     const uuid = crypto.randomBytes(20).toString("hex");
     const jwt = new JWT();
 
@@ -56,7 +63,9 @@ const login = async (req, res) => {
         _userInfo: { rango: user._userInfo.rango }
       }
     });
+
   } catch (err) {
+    console.error(err); // Útil para ver errores en la consola de Linux
     return res.status(500).json({ error: "Error al procesar el login", details: err.message });
   }
 };
@@ -75,6 +84,5 @@ const getUserToken = (req, res) => {
 
   return res.json({ message: "Acceso autorizado", user: decoded.payload });
 };
-
 
 module.exports = { login, getUserToken };
