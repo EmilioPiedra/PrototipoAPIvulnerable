@@ -15,7 +15,7 @@ on:
   push:
     branches: [ "master", "secure-hardening" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master"]
   schedule:
     - cron: '25 3 * * 4'
 
