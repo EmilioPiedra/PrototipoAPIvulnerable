@@ -38,4 +38,4 @@ const inventarioSchema = new mongoose.Schema({
   timestamps: true // Auditoría básica de creación/modificación
 });
 
-module.exports = mongoose.model("Inventario", inventarioSchema);
+module.exports = mongoose.model("InventarioSeguro", inventarioSchema , "inventarioSeguro");

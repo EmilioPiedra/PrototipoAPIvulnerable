@@ -49,4 +49,4 @@ const userSchema = new mongoose.Schema({
   timestamps: true // Crea automáticamente createdAt y updatedAt
 });
 
-module.exports = mongoose.model("userSeguro", userSchema, "userSeguro");
+module.exports = mongoose.model("usersSeguro", userSchema, "usersSeguro");

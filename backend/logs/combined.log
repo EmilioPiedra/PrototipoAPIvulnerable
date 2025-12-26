@@ -83,3 +83,38 @@
 {"level":"info","message":"2FA Iniciado","service":"api-veterinaria","timestamp":"2025-12-02 11:25:01","usuario":"admin"}
 {"level":"info","message":"Login 2FA Completado Exitosamente","service":"api-veterinaria","timestamp":"2025-12-02 11:25:07","usuario":"admin"}
 {"admin":"admin","level":"info","message":"Usuario actualizado por Admin","service":"api-veterinaria","targetUser":"userB","timestamp":"2025-12-02 11:25:20"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 09:59:37"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-01.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 09:59:39"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 10:05:45"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-02.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 10:05:48"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 10:14:10"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-00.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 10:14:12"}
+{"ip":"::1","level":"warn","message":"Ruta no encontrada (404): /favicon.ico","service":"api-veterinaria","timestamp":"2025-12-04 10:22:07"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 10:28:41"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-01.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 10:28:43"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 10:31:07"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-02.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 10:31:09"}
+{"level":"info","message":"2FA Iniciado","service":"api-veterinaria","timestamp":"2025-12-04 10:31:13","usuario":"userA"}
+{"level":"info","message":"Login 2FA Completado Exitosamente","service":"api-veterinaria","timestamp":"2025-12-04 10:31:22","usuario":"userA"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 10:31:58"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-02.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 10:31:59"}
+{"level":"info","message":"2FA Iniciado","service":"api-veterinaria","timestamp":"2025-12-04 10:32:18","usuario":"userA"}
+{"level":"info","message":"Login 2FA Completado Exitosamente","service":"api-veterinaria","timestamp":"2025-12-04 10:32:25","usuario":"userA"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 10:40:51"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-00.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 10:40:53"}
+{"level":"info","message":"2FA Iniciado","service":"api-veterinaria","timestamp":"2025-12-04 10:40:59","usuario":"userA"}
+{"level":"info","message":"Login 2FA Completado Exitosamente","service":"api-veterinaria","timestamp":"2025-12-04 10:41:06","usuario":"userA"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 10:41:21"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-00.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 10:41:22"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 10:42:45"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-01.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 10:42:47"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 10:45:06"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-02.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 10:45:08"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 10:45:13"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-02.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 10:45:15"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 10:47:25"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-00.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 10:47:26"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-04 10:48:26"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-01.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-04 10:48:28"}
+{"level":"info","message":"2FA Iniciado","service":"api-veterinaria","timestamp":"2025-12-04 10:49:12","usuario":"userA"}
+{"level":"info","message":"Login 2FA Completado Exitosamente","service":"api-veterinaria","timestamp":"2025-12-04 10:49:24","usuario":"userA"}

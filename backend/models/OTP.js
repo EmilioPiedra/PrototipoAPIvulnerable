@@ -12,7 +12,7 @@ const otpSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 300 // ¡SEGURIDAD CRÍTICA! El documento se auto-destruye en 300 segundos (5 min)
+    expires: 300 // El documento se auto-destruye en 300 segundos (5 min)
   }
 });
 
