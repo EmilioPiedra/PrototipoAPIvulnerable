@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
 
+// Expresión regular optimizada (Tiempo Lineal - Anti ReDoS)
+// Evita el backtracking catastrófico al no usar grupos anidados repetitivos.
+const emailSafeRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
 const userSchema = new mongoose.Schema({
   usuario: {
     type: String,
@@ -13,7 +17,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
     unique: true,
     match: [
-      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+      emailSafeRegex,
       "Por favor, ingrese un correo válido"
     ]
   },
@@ -42,11 +46,10 @@ const userSchema = new mongoose.Schema({
       min: 0 // Evita números negativos
     }
   },
-  // Campos para bloquear cuenta por fuerza bruta (Opcional pero recomendado)
   loginAttempts: { type: Number, default: 0 },
   lockUntil: { type: Date }
 }, {
-  timestamps: true // Crea automáticamente createdAt y updatedAt
+  timestamps: true 
 });
 
 module.exports = mongoose.model("usersSeguro", userSchema, "usersSeguro");
