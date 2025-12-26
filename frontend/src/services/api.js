@@ -37,17 +37,17 @@ const apiCall = async (endpoint, method = "GET", body = null, token = null) => {
 
 // Paso 1: Enviar credenciales -> Recibir tempToken
 export const loginStep1 = async (usuario, password) => {
-  return await apiCall("/login", "POST", { usuario, password });
+  return await apiCall("/auth/login", "POST", { usuario, password });
 };
 
 // Paso 2: Enviar tempToken + OTP -> Recibir Token Final
 export const loginStep2 = async (tempToken, otp) => {
-  return await apiCall("/login/verify", "POST", { tempToken, otp });
+  return await apiCall("/auth/login/verify", "POST", { tempToken, otp });
 };
 
 // Verificar Token / Obtener Perfil (Ruta protegida base)
 export const fetchProtectedData = async (token) => {
-  return await apiCall("/protected", "GET", null, token);
+  return await apiCall("/otp/protected", "GET", null, token);
 };
 
 // ==========================================
@@ -55,15 +55,15 @@ export const fetchProtectedData = async (token) => {
 // ==========================================
 
 export const requestPasswordReset = async (usuario) => {
-  return await apiCall("/request-otp", "POST", { usuario });
+  return await apiCall("/otp/request-otp", "POST", { usuario });
 };
 
 export const verifyPasswordResetOtp = async (usuario, otp) => {
-  return await apiCall("/verify-otp", "POST", { usuario, otp });
+  return await apiCall("/otp/verify-otp", "POST", { usuario, otp });
 };
 
 export const changePassword = async (usuario, otp, nuevaPassword) => {
-  return await apiCall("/change-password", "POST", { usuario, otp, nuevaPassword });
+  return await apiCall("/otp/change-password", "POST", { usuario, otp, nuevaPassword });
 };
 
 // ==========================================
@@ -87,11 +87,11 @@ export const deleteUserAdmin = async (token, usuarioTarget) => {
 // ==========================================
 
 export const getInventario = async (token) => {
-  return await apiCall("/inventario", "GET", null, token);
+  return await apiCall("/inventario/inventario", "GET", null, token);
 };
 
 export const addInventario = async (token, itemData) => {
-  return await apiCall("/addInventario", "POST", itemData, token);
+  return await apiCall("/inventario/addInventario", "POST", itemData, token);
 };
 
 // ==========================================

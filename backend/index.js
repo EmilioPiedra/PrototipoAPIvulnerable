@@ -1,17 +1,20 @@
 require("dotenv").config({ path: "../.env" });
 const express = require("express");
 const cors = require("cors");
-const helmet = require("helmet"); // Seguridad Headers
-const hpp = require("hpp");       // Polución de parámetros
+const helmet = require("helmet");
+const hpp = require("hpp");
 const connectDB = require("./config/db");
-const logger = require("./utils/logger"); // ¡IMPORTANTE! Importar tu logger
+const logger = require("./utils/logger");
 
-// IMPORTAR LOS LIMITADORES
+// IMPORTAR SOLO EL LIMITADOR GLOBAL
 const { apiLimiter } = require('./middlewares/rateLimit.middleware');
 
-
-
 const app = express();
+
+// --- CONFIGURACIÓN DE RED (Crucial para Rate Limit) ---
+// Permite que Express confíe en los encabezados de proxies (como Render, Heroku o Nginx)
+// para obtener la IP real del cliente y no la del servidor.
+app.set('trust proxy', 1);
 
 // 1. SEGURIDAD: Helmet
 app.use(helmet());
@@ -25,38 +28,34 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
-// 3. Parser JSON
+// 3. Parser JSON y HPP
 app.use(express.json({ limit: '10kb' }));
-
-// 4. SEGURIDAD: HPP
 app.use(hpp());
 
-// 5. SEGURIDAD: RATE LIMIT GLOBAL (Aquí estaba el faltante)
-// Aplicamos el límite de 100 peticiones a TODAS las rutas que empiecen por /api
+// 4. RATE LIMIT GLOBAL (100 peticiones)
+// Se aplica a todas las rutas que empiecen con /api
 app.use("/api", apiLimiter); 
 
-// === RUTAS ===
+// === DEFINICIÓN DE RUTAS ===
+// Nota: Cada archivo de ruta debe manejar su propio authLimiter internamente
 
-// 1. PUBLICAS (Deben ir primero para que no las bloqueen los middlewares de otras)
-app.use("/api", require("./routes/auth.routes")); // Login es público
-app.use("/api", require("./routes/otp.routes"));  // OTP es público <--- ¡AQUÍ!
+// Rutas de Autenticación y OTP
+app.use("/api/auth", require("./routes/auth.routes")); 
+app.use("/api/otp", require("./routes/otp.routes"));
 
-// 2. MIXTAS (Tienen protecciones internas específicas)
-app.use("/api", require("./routes/inventario.routes"));
+// Rutas de Negocio (Inventario y Usuarios)
+app.use("/api/inventario", require("./routes/inventario.routes"));
 app.use("/api/user", require("./routes/user.routes"));
 
-// 3. PROTEGIDAS GLOBALES (Como Admin aplica 'protect' a todo, va al final)
-app.use("/api", require("./routes/admin.routes")); 
+// Rutas de Administración
+app.use("/api/admin", require("./routes/admin.routes")); 
 
-// ... manejo de 404 ...
-
-// Manejo de 404
-app.use((req, res, next) => {
+// --- MANEJO DE ERRORES ---
+app.use((req, res) => {
     logger.warn(`Ruta no encontrada (404): ${req.originalUrl}`, { ip: req.ip });
     res.status(404).json({ error: "Ruta no encontrada" });
 });
 
-// Manejo Global de Errores
 app.use((err, req, res, next) => {
   logger.safeError("Error No Controlado", {
       path: req.path,

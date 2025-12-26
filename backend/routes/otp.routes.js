@@ -3,11 +3,9 @@ const router = express.Router();
 const { requestOTP, verifyOTP, changePassword } = require('../controllers/otp.controller');
 const { authLimiter } = require('../middlewares/rateLimit.middleware');
 
-// Aplicar Rate Limit estricto a todo el flujo de OTP
-router.use(authLimiter);
-
-router.post('/request-otp', requestOTP);
-router.post('/verify-otp', verifyOTP);
-router.post('/change-password', changePassword);
+// Aplicar el límite SOLO a los intentos de validación y solicitud
+router.post('/request-otp', authLimiter, requestOTP);
+router.post('/verify-otp', authLimiter, verifyOTP);
+router.post('/change-password', authLimiter, changePassword);
 
 module.exports = router;

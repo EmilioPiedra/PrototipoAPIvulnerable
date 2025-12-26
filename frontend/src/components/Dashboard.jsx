@@ -65,6 +65,8 @@ const Dashboard = () => {
             <p>Rol: {user._userInfo?.rango || "Usuario"}</p>
           </div>
         );
+      case "inventario":
+        return <Inventario token={token} />;
       case "perfil":
         return <UserProfile user={user} />; // Pasamos el user ya cargado
       case "editarPerfil":
@@ -91,9 +93,6 @@ const Dashboard = () => {
           </li>
           <li onClick={() => setSelectedPanel("inventario")}>
             <i className="fas fa-boxes"></i> Inventario
-          </li>
-          <li onClick={() => setSelectedPanel("subirInventario")}>
-            <i className="fas fa-upload"></i> Subir inventario
           </li>
           <li onClick={() => setSelectedPanel("perfil")}>
             <i className="fas fa-user"></i> Mi Perfil
