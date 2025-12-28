@@ -103,35 +103,6 @@ export const addInventario = async (token, nuevoItem) => {
 };
 
 
-export const verificarAntecedentes = async (cedula, token) => {
-  const res = await fetch(`${API_URL}/api/verificar-antecedentes`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ cedula }),
-  });
-
-  const data = await res.json();
-  return data;
-};
-
-
-export const facturarCliente = async (factura, token) => {
-  const res = await fetch(`${API_URL}/api/factura`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`
-    },
-    body: JSON.stringify(factura)
-  });
-
-  if (!res.ok) throw new Error("Error al generar la factura");
-  return await res.json();
-};
-
 
 export const getUserById = async (token, userId) => {
   const res = await fetch(`${API_URL}/api/user/${userId}`, {
@@ -156,42 +127,5 @@ export const updateUserById = async (token, userId, userData) => {
   });
 
   if (!res.ok) throw new Error("Error al actualizar usuario");
-  return await res.json();
-};
-
-
-
-// --------------------------- COMPRAS ---------------------------
-
-// Crear compra (inseguro)
-export const createCompra = async (token, payload) => {
-  const res = await fetch(`${API_URL}/api/compra`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) throw new Error("Error al crear compra");
-  return await res.json();
-};
-
-// Obtener historial de compras (inseguro, filtra por UUID)
-export const obtenerCompras = async (token) => {
-  const res = await fetch(`${API_URL}/api/compra`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!res.ok) throw new Error("Error obteniendo compras");
-  return await res.json();
-};
-
-// Eliminar compra (inseguro)
-export const eliminarCompra = async (id, token) => {
-  const res = await fetch(`${API_URL}/api/compra/${id}`, {
-    method: "DELETE",
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  if (!res.ok) throw new Error("Error al eliminar compra");
   return await res.json();
 };
