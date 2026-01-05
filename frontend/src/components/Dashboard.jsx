@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { fetchProtectedData, getUserById, getInventario, createCompra  } from "../services/api";
+import {  getUserById, getInventario  } from "../services/api";
 import UserProfile from "./UserProfile";
 import EditarPerfil from "./EditarPerfil";
-import ComprarProductos from "./ComprarProductos";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
 const Dashboard = () => {
@@ -48,8 +47,6 @@ const Dashboard = () => {
             <p>Correo: {user.correo}</p>
           </div>
         );
-      case "comprar":
-        return <ComprarProductos />;
       case "perfil":
         return <UserProfile />;
       case "editarPerfil":
@@ -69,9 +66,6 @@ const Dashboard = () => {
         <ul>
           <li onClick={() => setSelectedPanel("inicio")}>
             <i className="fas fa-home"></i> Inicio
-          </li>
-          <li onClick={() => setSelectedPanel("comprar")}>
-            <i className="fas fa-shopping-cart"></i> Comprar Productos
           </li>
           <li onClick={() => setSelectedPanel("perfil")}>
             <i className="fas fa-user"></i> Mi Perfil
