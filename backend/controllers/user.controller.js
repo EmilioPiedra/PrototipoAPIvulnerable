@@ -1,19 +1,18 @@
 const User = require("../models/User");
 const logger = require("../utils/logger");
-const mongoose = require("mongoose"); // Necesario para validar el formato del ID
+const mongoose = require("mongoose");
 
 const getUserById = async (req, res) => {
-  // 1. Sanitización: Forzamos que sea String para romper el flujo de datos maliciosos
+  // 1. Sanitización estricta: Casting explícito a String
   const id = String(req.params.id); 
   const requestingUser = req.user;
 
   try {
-    // 2. Validación de Formato: Evita que el motor de la DB procese basura o scripts
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: "Formato de identificador inválido" });
     }
 
-    // 3. Lógica de Autorización (Protección Anti-IDOR)
+    // PROTECCIÓN ANTI-IDOR (HU-13) [cite: 25, 131]
     if (requestingUser.id !== id && requestingUser._userInfo.rango !== 'admin') {
       logger.warn(`Intento de IDOR detectado`, { 
           atacante: requestingUser.usuario, 
@@ -22,7 +21,8 @@ const getUserById = async (req, res) => {
       return res.status(403).json({ error: "Acceso denegado" });
     }
 
-    // 4. Consulta Segura: Usamos la variable 'id' ya validada y sanitizada
+    // 2. Consulta Segura: Al usar findById(id) con 'id' sanitizado como String, 
+    // CodeQL reconoce que el flujo de inyección NoSQL se ha roto.
     const user = await User.findById(id).select("-password");
     if (!user) return res.status(404).json({ error: "Usuario no encontrado" });
 
@@ -34,18 +34,19 @@ const getUserById = async (req, res) => {
 };
 
 const updateUserById = async (req, res) => {
-  // 1. Sanitización de entrada
   const id = String(req.params.id); 
   const requestingUser = req.user;
-  const { correo, telefono } = req.body;
+  
+  // 1. IMPORTANTE: Extraemos y sanitizamos individualmente (HU-15) 
+  // Si req.body.correo fuera un objeto {$ne: null}, String() lo convierte en texto plano
+  const correo = req.body.correo ? String(req.body.correo) : undefined;
+  const telefono = req.body.telefono ? String(req.body.telefono) : undefined;
 
   try {
-    // 2. Validación de Formato
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: "Formato de identificador inválido" });
     }
 
-    // 3. Protección Anti-IDOR
     if (requestingUser.id !== id && requestingUser._userInfo.rango !== 'admin') {
       logger.warn(`Intento de IDOR en Update detectado`, { 
           atacante: requestingUser.usuario, 
@@ -54,10 +55,15 @@ const updateUserById = async (req, res) => {
       return res.status(403).json({ error: "Acceso denegado" });
     }
 
-    // 4. Actualización Segura (Whitelisting de campos correo y telefono)
+    // 2. WHITELISTING SEGURO (HU-16) [cite: 37, 134]
+    // Solo pasamos las variables locales ya sanitizadas
+    const updateData = {};
+    if (correo) updateData.correo = correo;
+    if (telefono) updateData.telefono = telefono;
+
     const updatedUser = await User.findByIdAndUpdate(
       id,
-      { correo, telefono },
+      updateData, // Pasamos el objeto construido manualmente, no el req.body
       { new: true, runValidators: true }
     ).select("-password");
 

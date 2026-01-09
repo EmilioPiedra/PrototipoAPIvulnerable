@@ -3,7 +3,7 @@ const rateLimit = require('express-rate-limit');
 // 1. Limitador para Login/OTP (Aumentamos a 10 para evitar bloqueos por recarga)
 const authLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, 
-    max: 10, // Subimos de 5 a 10 para el flujo de 2FA
+    max: 5, // Subimos de 5 a 10 para el flujo de 2FA
     message: {
         error: "Demasiados intentos de autenticación. Espere 15 minutos."
     },

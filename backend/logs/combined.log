@@ -130,3 +130,39 @@
 {"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2025-12-26 17:24:17"}
 {"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-01.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2025-12-26 17:24:19"}
 {"ip":"::1","level":"warn","message":"Ruta no encontrada (404): /api/login","service":"api-veterinaria","timestamp":"2025-12-26 17:24:29"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2026-01-05 14:55:16"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-02.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2026-01-05 14:55:18"}
+{"ip":"::1","level":"warn","message":"Ruta no encontrada (404): /api/login","service":"api-veterinaria","timestamp":"2026-01-05 14:56:14"}
+{"level":"info","message":"OTP generado para userA","service":"api-veterinaria","timestamp":"2026-01-05 15:01:08"}
+{"level":"info","message":"OTP generado para userA","service":"api-veterinaria","timestamp":"2026-01-05 15:01:21"}
+{"ip":"::1","level":"warn","message":"Ruta no encontrada (404): /api/login","service":"api-veterinaria","timestamp":"2026-01-05 15:02:30"}
+{"ip":"::1","level":"warn","message":"Ruta no encontrada (404): /api/login","service":"api-veterinaria","timestamp":"2026-01-05 15:07:21"}
+{"ip":"::1","level":"warn","message":"Ruta no encontrada (404): /api/login","service":"api-veterinaria","timestamp":"2026-01-05 15:07:27"}
+{"ip":"::1","level":"warn","message":"Ruta no encontrada (404): /api/login","service":"api-veterinaria","timestamp":"2026-01-05 15:07:28"}
+{"level":"info","message":"2FA Iniciado","service":"api-veterinaria","timestamp":"2026-01-05 15:09:34","usuario":"userA"}
+{"level":"info","message":"Login 2FA Completado Exitosamente","service":"api-veterinaria","timestamp":"2026-01-05 15:10:46","usuario":"userA"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:14:25"}
+{"level":"info","message":"2FA Iniciado","service":"api-veterinaria","timestamp":"2026-01-05 15:19:16","usuario":"userA"}
+{"level":"info","message":"Login 2FA Completado Exitosamente","service":"api-veterinaria","timestamp":"2026-01-05 15:20:53","usuario":"userA"}
+{"level":"info","message":"2FA Iniciado","service":"api-veterinaria","timestamp":"2026-01-05 15:33:46","usuario":"userB"}
+{"level":"info","message":"Login 2FA Completado Exitosamente","service":"api-veterinaria","timestamp":"2026-01-05 15:34:25","usuario":"userB"}
+{"level":"info","message":"Perfil actualizado","service":"api-veterinaria","timestamp":"2026-01-05 15:36:17","usuario":"userB"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:45:49"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:45:51"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:45:53"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:45:56"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:45:59"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:46:02"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:46:04"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:46:07"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2026-01-05 15:46:40"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-02.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2026-01-05 15:46:41"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:46:52"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:46:54"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:46:57"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:46:59"}
+{"level":"info","message":"OTP generado para userB","service":"api-veterinaria","timestamp":"2026-01-05 15:47:01"}
+{"level":"info","message":"Servidor SEGURO corriendo en puerto 4000","service":"api-veterinaria","timestamp":"2026-01-06 10:51:43"}
+{"level":"info","message":"MongoDB Conectado: ac-rmhjktc-shard-00-01.y9vkcvq.mongodb.net","service":"api-veterinaria","timestamp":"2026-01-06 10:51:45"}
+{"level":"info","message":"2FA Iniciado","service":"api-veterinaria","timestamp":"2026-01-06 10:52:18","usuario":"userB"}
+{"error":"Illegal arguments: object, string","level":"error","message":"Error en Login Paso 1","service":"api-veterinaria","timestamp":"2026-01-06 10:55:40"}

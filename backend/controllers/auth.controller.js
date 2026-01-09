@@ -14,8 +14,9 @@ const loginStepOne = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ usuario }).select('+password');
-
+    const sanitizedUsuario = String(req.body.usuario); 
+    const user = await User.findOne({ usuario: sanitizedUsuario }).select('+password');
+    
     if (!user || !(await bcrypt.compare(password, user.password))) {
       // Rate limiter manejará los intentos fallidos
       return res.status(401).json({ error: "Credenciales inválidas" });
