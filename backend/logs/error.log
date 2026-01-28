@@ -7,3 +7,4 @@
 {"error":"Could not connect to any servers in your MongoDB Atlas cluster. One common reason is that you're trying to access the database from an IP that isn't whitelisted. Make sure your current IP address is on your Atlas cluster's IP whitelist: https://www.mongodb.com/docs/atlas/security-whitelist/","level":"error","message":"Error conectando a MongoDB","service":"api-veterinaria","timestamp":"2025-12-02 10:32:03"}
 {"error":"Unexpected token '\"', \"\"eyJhbGciO\"... is not valid JSON","level":"error","message":"Error No Controlado","method":"PUT","path":"/api/actualizar/[object%20Object]","service":"api-veterinaria","timestamp":"2025-12-02 11:22:04"}
 {"error":"Illegal arguments: object, string","level":"error","message":"Error en Login Paso 1","service":"api-veterinaria","timestamp":"2026-01-06 10:55:40"}
+{"error":"Illegal arguments: object, string","level":"error","message":"Error en Login Paso 1","service":"api-veterinaria","timestamp":"2026-01-14 10:48:40"}

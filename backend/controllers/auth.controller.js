@@ -12,7 +12,11 @@ const loginStepOne = async (req, res) => {
   if (!usuario || !password) {
     return res.status(400).json({ error: "Faltan credenciales" });
   }
-
+  if (typeof usuario !== 'string' || typeof password !== 'string') {
+    return res.status(400).json({ 
+      error: "Formato de datos inválido. Se esperaba texto." 
+    });
+  }
   try {
     const sanitizedUsuario = String(req.body.usuario); 
     const user = await User.findOne({ usuario: sanitizedUsuario }).select('+password');
@@ -21,8 +25,6 @@ const loginStepOne = async (req, res) => {
       // Rate limiter manejará los intentos fallidos
       return res.status(401).json({ error: "Credenciales inválidas" });
     }
-
-    // --- AQUÍ EMPIEZA LA MAGIA DEL 2FA ---
 
     // 1. Generar OTP de 6 dígitos
     const otpCode = crypto.randomInt(100000, 999999).toString();
@@ -67,6 +69,12 @@ const loginStepTwo = async (req, res) => {
 
   if (!tempToken || !otp) {
     return res.status(400).json({ error: "Faltan datos (token temporal o OTP)" });
+  }
+  
+  if (typeof tempToken !== 'string' || typeof otp !== 'string') {
+    return res.status(400).json({ 
+      error: "Formato de token u OTP inválido." 
+    });
   }
 
   try {

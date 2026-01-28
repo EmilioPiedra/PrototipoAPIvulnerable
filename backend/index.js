@@ -15,10 +15,8 @@ const app = express();
 // Permite que Express confíe en los encabezados de proxies (como Render, Heroku o Nginx)
 // para obtener la IP real del cliente y no la del servidor.
 app.set('trust proxy', 1);
-
 // 1. SEGURIDAD: Helmet
 app.use(helmet());
-
 // 2. SEGURIDAD: CORS
 const corsOptions = {
   origin: process.env.FRONTEND_URL || "http://localhost:3000",
@@ -27,11 +25,9 @@ const corsOptions = {
   credentials: true,
 };
 app.use(cors(corsOptions));
-
 // 3. Parser JSON y HPP
 app.use(express.json({ limit: '10kb' }));
 app.use(hpp());
-
 // 4. RATE LIMIT GLOBAL (100 peticiones)
 // Se aplica a todas las rutas que empiecen con /api
 app.use("/api", apiLimiter); 

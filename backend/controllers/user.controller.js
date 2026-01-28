@@ -12,7 +12,7 @@ const getUserById = async (req, res) => {
       return res.status(400).json({ error: "Formato de identificador inválido" });
     }
 
-    // PROTECCIÓN ANTI-IDOR (HU-13) [cite: 25, 131]
+    // PROTECCIÓN ANTI-IDOR (HU-13) 
     if (requestingUser.id !== id && requestingUser._userInfo.rango !== 'admin') {
       logger.warn(`Intento de IDOR detectado`, { 
           atacante: requestingUser.usuario, 
