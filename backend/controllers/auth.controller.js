@@ -13,22 +13,13 @@ const login = async (req, res) => {
   try {
     let passwordParaBuscar = password;
 
-    // --- PREPARACIÓN DEL ENTORNO VULNERABLE ---
-    // Si el usuario envía una contraseña normal (String), la hasheamos para compararla.
-    // Si el atacante envía un Objeto (ej: { "$ne": "..." }), saltamos el hash 
-    // para evitar que el servidor crashee y permitir que el objeto llegue a Mongo.
     if (typeof password === 'string') {
         passwordParaBuscar = crypto
-          .createHmac("ripemd160", "change_key_private_") // Asegúrate que esta key coincida con tu registro
+          .createHmac("ripemd160", "change_key_private_") 
           .update(password)
           .digest("base64");
     }
 
-    // --- AQUÍ ESTÁ LA VULNERABILIDAD ---
-    // Delegamos la validación TOTAL a la base de datos.
-    // Si inyectamos { "$ne": "basura" }, Mongo buscará:
-    // "Usuario admin Y cuyo password NO SEA 'basura'". 
-    // Como el hash real no es 'basura', devuelve el usuario y entra.
     const user = await User.findOne({ 
         usuario: usuario, 
         password: passwordParaBuscar 
